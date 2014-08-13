@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://adelzhang.github.iorss/</loc>
+    <lastmod>2014-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://adelzhang.github.io</loc>
+    <lastmod>2014-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://adelzhang.github.ioatom/</loc>
+    <lastmod>2014-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://adelzhang.github.io2014/3-months-in-erlang/</loc>
+    <lastmod>2014-07-30</lastmod>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://adelzhang.github.io2014/brian-acton-and-erlang/</loc>
+    <lastmod>2014-07-30</lastmod>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://adelzhang.github.ioarticles/</loc>
+    <lastmod>2014-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+</urlset>
