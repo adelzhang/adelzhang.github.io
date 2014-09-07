@@ -5,9 +5,43 @@
         <link>http://adelzhang.github.io/</link>
         <description></description>
         <language>zh</language>
-        <pubDate>Sun, 18 May 2014 06:16:00 GMT</pubDate>
+        <pubDate>Sat, 06 Sep 2014 09:31:00 GMT</pubDate>
         <docs>http://adelzhang.github.io/rss/</docs>
         <generator>acrylamid 0.7.8</generator>
+        
+            <item>
+        <title>函数调用和热更新</title>
+        <link>http://adelzhang.github.io/2014/remote-and-local-call-in-erlang/</link>
+        <description>&lt;p&gt;erlang中函数调用分为两种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;remote call/external function call: &lt;code&gt;m:f(e1, ..., eN)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;local call: &lt;code&gt;f(e1, ..., eN)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护
+两个版本的代码:&lt;code&gt;current&lt;/code&gt;和 &lt;code&gt;old&lt;/code&gt;。老版本和新版本可以同时运行：remote call总是使用
+&lt;code&gt;current&lt;/code&gt;版本，local call可能运行&lt;code&gt;old&lt;/code&gt;版本。当有更新的版本代码加载时，运行&lt;code&gt;old&lt;/code&gt;
+代码的进程会终止。可以通过调用remote call，使进程切换到 &lt;code&gt;current&lt;/code&gt; 版本。&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;-module(m).
+-export([loop/0]).
+
+loop() -&amp;gt;
+    receive
+        code_switch -&amp;gt;
+            m:loop();
+        Msg -&amp;gt;
+            do_something,
+            loop()
+    end.&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;这种差别也体现在spawn函数调用时，&lt;code&gt;spawn(M, F, A)&lt;/code&gt; 使用&lt;code&gt;current&lt;/code&gt;代码，而 &lt;code&gt;spawn(Fun)&lt;/code&gt; 中 &lt;code&gt;Fun&lt;/code&gt; 是local call，不能进行热更新。 &lt;/p&gt;
+&lt;p&gt;但是存在这样一个问题：当进行热更新时，怎么保证运行老版本代码的进程不死掉呢？&lt;/p&gt;
+&lt;h4&gt;--- Ref ---&lt;/h4&gt;
+&lt;p&gt;[1] &lt;a href=&#34;http://erlang.org/doc/reference_manual/expressions.html#id78068&#34;&gt;Function Calls&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href=&#34;http://erlang.org/doc/reference_manual/code_loading.html#id86334&#34;&gt;Code Loading&lt;/a&gt;&lt;/p&gt;</description>
+        <pubDate>Sat, 06 Sep 2014 09:31:00 GMT</pubDate>
+        <guid isPermaLink="false">tag:adelzhang.github.io,2014-09-06:/2014/remote-and-local-call-in-erlang</guid>
+    </item>
         
             <item>
         <title>brian acton and erlang</title>

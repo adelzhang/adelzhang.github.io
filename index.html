@@ -28,6 +28,52 @@
     
         <article>
     <header>
+        <time datetime="2014-09-06">06.09.2014, 17:31</time>
+        <h1>
+            <a href="/2014/remote-and-local-call-in-erlang/" rel="bookmark canonical">函数调用和热更新</a>
+        </h1>
+    </header>
+    <p>erlang中函数调用分为两种：</p>
+<ol>
+<li>remote call/external function call: <code>m:f(e1, ..., eN)</code></li>
+<li>local call: <code>f(e1, ..., eN)</code></li>
+</ol>
+<p>remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护
+两个版本的代码:<code>current</code>和 <code>old</code>。老版本和新版本可以同时运行：remote call总是使用
+<code>current</code>版本，local call可能运行<code>old</code>版本。当有更新的版本代码加载时，运行<code>old</code>
+代码的进程会终止。可以通过调用remote call，使进程切换到 <code>current</code> 版本。</p>
+<pre class="highlight"><code>-module(m).
+-export([loop/0]).
+
+loop() -&gt;
+    receive
+        code_switch -&gt;
+            m:loop();
+        Msg -&gt;
+            do_something,
+            loop()
+    end.</code></pre>
+
+
+<p>这种差别也体现在spawn函数调用时，<code>spawn(M, F, A)</code> 使用<code>current</code>代码，而 <code>spawn(Fun)</code> 中 <code>Fun</code> 是local call，不能进行热更新。 </p>
+<p>但是存在这样一个问题：当进行热更新时，怎么保证运行老版本代码的进程不死掉呢？</p>
+<h3>--- Ref ---</h3>
+<p>[1] <a href="http://erlang.org/doc/reference_manual/expressions.html#id78068">Function Calls</a></p>
+<p>[2] <a href="http://erlang.org/doc/reference_manual/code_loading.html#id86334">Code Loading</a></p>
+    <footer>
+        
+        
+            <p>tagged as
+                <a href="/tag/erlang/" rel="tag">erlang</a>
+                
+            </p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+        <article>
+    <header>
         <time datetime="2014-05-18">18.05.2014, 14:16</time>
         <h1>
             <a href="/2014/brian-acton-and-erlang/" rel="bookmark canonical">brian acton and erlang</a>
@@ -140,7 +186,7 @@
 <footer>
     
     
-    <p>written by <a href="mailto:mail@example.com">adelzhang</a></p>
+    <p>written by <a href="mailto:triadelphous#gmail.com">adelzhang</a></p>
     <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/de/" rel="copyright license">
         <img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="by-nc-sa" />
     </a>

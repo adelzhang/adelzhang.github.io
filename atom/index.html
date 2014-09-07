@@ -3,7 +3,7 @@
     <author>
         <name>adelzhang</name>
         <uri>http://adelzhang.github.io/</uri>
-        <email>mail@example.com</email>
+        <email>triadelphous#gmail.com</email>
     </author>
     <title>/home/adelzhang</title>
     <id>tag:adelzhang.github.io,2011-06-11:/atom/</id>
@@ -11,8 +11,49 @@
     <link rel="self" type="application/atom+xml" href="http://adelzhang.github.io/atom/" />
     <icon>http://adelzhang.github.io/favicon.ico</icon>
     <logo>http://adelzhang.github.io/feed-logo.png</logo>
-    <updated>2014-05-18T06:16:00Z</updated>
+    <updated>2014-09-06T09:31:00Z</updated>
     <generator uri="https://github.com/posativ/acrylamid/" version="0.7.8">acrylamid</generator>
+        <entry>
+        <title>函数调用和热更新</title>
+        <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/remote-and-local-call-in-erlang/" />
+        <id>tag:adelzhang.github.io,2014-09-06:/2014/remote-and-local-call-in-erlang</id>
+        <updated>2014-09-06T09:31:00Z</updated>
+        <category term="erlang" />
+        
+        <author>
+            <name>adelzhang</name>
+            <uri>http://adelzhang.github.io/</uri>
+            <email>triadelphous#gmail.com</email>
+        </author>
+        <content type="html">&lt;p&gt;erlang中函数调用分为两种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;remote call/external function call: &lt;code&gt;m:f(e1, ..., eN)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;local call: &lt;code&gt;f(e1, ..., eN)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护
+两个版本的代码:&lt;code&gt;current&lt;/code&gt;和 &lt;code&gt;old&lt;/code&gt;。老版本和新版本可以同时运行：remote call总是使用
+&lt;code&gt;current&lt;/code&gt;版本，local call可能运行&lt;code&gt;old&lt;/code&gt;版本。当有更新的版本代码加载时，运行&lt;code&gt;old&lt;/code&gt;
+代码的进程会终止。可以通过调用remote call，使进程切换到 &lt;code&gt;current&lt;/code&gt; 版本。&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;-module(m).
+-export([loop/0]).
+
+loop() -&amp;gt;
+    receive
+        code_switch -&amp;gt;
+            m:loop();
+        Msg -&amp;gt;
+            do_something,
+            loop()
+    end.&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;这种差别也体现在spawn函数调用时，&lt;code&gt;spawn(M, F, A)&lt;/code&gt; 使用&lt;code&gt;current&lt;/code&gt;代码，而 &lt;code&gt;spawn(Fun)&lt;/code&gt; 中 &lt;code&gt;Fun&lt;/code&gt; 是local call，不能进行热更新。 &lt;/p&gt;
+&lt;p&gt;但是存在这样一个问题：当进行热更新时，怎么保证运行老版本代码的进程不死掉呢？&lt;/p&gt;
+&lt;h4&gt;--- Ref ---&lt;/h4&gt;
+&lt;p&gt;[1] &lt;a href=&#34;http://erlang.org/doc/reference_manual/expressions.html#id78068&#34;&gt;Function Calls&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href=&#34;http://erlang.org/doc/reference_manual/code_loading.html#id86334&#34;&gt;Code Loading&lt;/a&gt;&lt;/p&gt;</content>
+    </entry>
+    
         <entry>
         <title>brian acton and erlang</title>
         <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/brian-acton-and-erlang/" />
@@ -22,7 +63,7 @@
         <author>
             <name>adelzhang</name>
             <uri>http://adelzhang.github.io/</uri>
-            <email>mail@example.com</email>
+            <email>triadelphous#gmail.com</email>
         </author>
         <content type="html">&lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Brian_Acton&#34;&gt;Brian Acton&lt;/a&gt;在whatsapp被facebook收购后，除了瞬间变成一个亿万富翁外，也因其&lt;a href=&#34;http://adelzhang.github.io/2014/brian-acton-and-erlang/www.solidot.org/story?sid=38414&#34;&gt;特殊的工作经历&lt;/a&gt;，被大众追捧为励志对象。这其实有点滑稽，大家只看到他被twitter，facebook拒绝，而选择性忽略他斯坦福大学毕业，曾在apple，adobe，yahoo工作过，特别是yahoo离职后跟&lt;a href=&#34;http://en.wikipedia.org/wiki/Jan_Koum&#34;&gt;Jan Koum&lt;/a&gt;跑南美去耍了一年，这完全是人生赢家呀。所以这事和“励志”没有半毛关系，顶多算从“小成功”走向“大成功”。&lt;/p&gt;
 &lt;p&gt;但Brian Acton人生能有如此小高潮，与erlang还是有点关系的。Brian Acton 2009年才学erlang，到如今用erlang支持着whatsapp亿级用户量，erlang和Brian Action都让人惊叹。从erlang-question list上可以找到Brian Acton刚开始使用erlang时的踪迹，或许能有所启发。&lt;/p&gt;
@@ -80,7 +121,7 @@
         <author>
             <name>adelzhang</name>
             <uri>http://adelzhang.github.io/</uri>
-            <email>mail@example.com</email>
+            <email>triadelphous#gmail.com</email>
         </author>
         <content type="html">&lt;p&gt;从看Joe老爷的书，写下第一行erlang至今，已有三个月的时间，算是刚入门。这三个月
 里，主要工作是针对定制的xmpp协议对ejabberd进行修改，工作量不是很大，但过程并不
