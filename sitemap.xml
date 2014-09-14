@@ -1,19 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://adelzhang.github.io</loc>
+    <lastmod>2014-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>http://adelzhang.github.io2014/remote-and-local-call-in-erlang/</loc>
-    <lastmod>2014-09-06</lastmod>
+    <lastmod>2014-09-14</lastmod>
     <changefreq>never</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://adelzhang.github.ioatom/</loc>
-    <lastmod>2014-09-06</lastmod>
+    <lastmod>2014-09-14</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>http://adelzhang.github.iorss/</loc>
-    <lastmod>2014-09-06</lastmod>
+    <lastmod>2014-09-14</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
@@ -22,9 +27,10 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://adelzhang.github.io</loc>
-    <lastmod>2014-09-06</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>http://adelzhang.github.io2014/the-myths-of-tools/</loc>
+    <lastmod>2014-09-14</lastmod>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>http://adelzhang.github.io2014/brian-acton-and-erlang/</loc>
@@ -40,7 +46,7 @@
   </url>
   <url>
     <loc>http://adelzhang.github.ioarticles/</loc>
-    <lastmod>2014-09-06</lastmod>
+    <lastmod>2014-09-14</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
