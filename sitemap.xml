@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://adelzhang.github.io</loc>
-    <lastmod>2014-09-14</lastmod>
+    <lastmod>2014-09-21</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
@@ -13,22 +13,22 @@
   </url>
   <url>
     <loc>http://adelzhang.github.ioatom/</loc>
-    <lastmod>2014-09-14</lastmod>
+    <lastmod>2014-09-21</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>http://adelzhang.github.iorss/</loc>
-    <lastmod>2014-09-14</lastmod>
+    <lastmod>2014-09-21</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>http://adelzhang.github.iotag/erlang/</loc>
-    <lastmod>2014-09-06</lastmod>
+    <lastmod>2014-09-21</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>http://adelzhang.github.io2014/the-myths-of-tools/</loc>
-    <lastmod>2014-09-14</lastmod>
+    <lastmod>2014-09-21</lastmod>
     <changefreq>never</changefreq>
     <priority>1.0</priority>
   </url>
@@ -45,8 +45,14 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>http://adelzhang.github.io2014/what-is-group-leader/</loc>
+    <lastmod>2014-09-21</lastmod>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>http://adelzhang.github.ioarticles/</loc>
-    <lastmod>2014-09-14</lastmod>
+    <lastmod>2014-09-21</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>

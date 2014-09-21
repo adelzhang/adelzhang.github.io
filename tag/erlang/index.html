@@ -28,6 +28,43 @@
     
         <article>
     <header>
+        <time datetime="2014-09-20">20.09.2014, 20:31</time>
+        <h1>
+            <a href="/2014/what-is-group-leader/" rel="bookmark canonical">group leader二三事</a>
+        </h1>
+    </header>
+    <h3>I. group leader在哪</h3>
+<p>有很多地方可以发现group leader的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
+是对<code>application_controller</code>的封装：</p>
+<pre class="highlight"><code>start(Application, RestartType) -&gt;
+    case load(Application) of
+        ok -&gt;
+            Name = get_appl_name(Application),
+            application_controller:start_application(Name, RestartType);
+        {error, {already_loaded, Name}} -&gt;
+            application_controller:start_application(Name, RestartType);
+        Error -&gt;
+            Error
+    end.</code></pre>
+
+
+<p><code>application_controller</code>是一个仿造的OTP进程（为什么要仿造，而不是直接使用gen_server或者proc_lib呢？）:</p>
+<pre class="highlight"><code>start(KernelApp) -&gt;
+   </code></pre><span>&#8230;<a href="/2014/what-is-group-leader/" class="continue">continue</a>.</span>
+    <footer>
+        
+        
+            <p>tagged as
+                <a href="/tag/erlang/" rel="tag">erlang</a>
+                
+            </p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+        <article>
+    <header>
         <time datetime="2014-09-06">06.09.2014, 17:31</time>
         <h1>
             <a href="/2014/remote-and-local-call-in-erlang/" rel="bookmark canonical">函数调用和热更新</a>

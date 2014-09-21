@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>group leader二三事</title>
+  <link media="all" href="/style.css" rel="stylesheet" />
+  <link href="/favicon.ico" rel="shortcut icon" />
+    <link href="/sitemap.xml" type="application/xml" rel="sitemap" title="Sitemap">
+  <link href="/" rel="home start" />
+  <link href="/atom/" type="application/atom+xml" rel="alternate" title="Atom Feed" />
+  <link href="/rss/" type="application/rss+xml" rel="alternate" title="RSS Feed" />
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+    <meta name="description" content="## I. group leader在哪
+
+有很多地方可以发现group leader的踪迹，比如在..." />
+    <meta name="keywords" content="erlang" />
+</head>
+<body>
+  <header>
+    <h1><a href="/" rel="home start" class="blogtitle">/home/adelzhang</a></h1>
+    <nav>
+      <ul>
+        <li><a href="/" rel="home start">blog</a></li>
+        <li><a href="/atom/" rel="alternate">atom</a></li>
+        <li><a href="/rss/" rel="alternate">rss</a></li>
+        <li><a href="/articles/" rel="contents">articles</a></li>
+      </ul>
+    </nav>
+  </header>
+    
+        <article>
+    <header>
+        <time datetime="2014-09-20">20.09.2014, 20:31</time>
+        <h1>
+            <a href="/2014/what-is-group-leader/" rel="bookmark canonical">group leader二三事</a>
+        </h1>
+    </header>
+    <h3>I. group leader在哪</h3>
+<p>有很多地方可以发现group leader的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
+是对<code>application_controller</code>的封装：</p>
+<pre class="highlight"><code>start(Application, RestartType) -&gt;
+    case load(Application) of
+        ok -&gt;
+            Name = get_appl_name(Application),
+            application_controller:start_application(Name, RestartType);
+        {error, {already_loaded, Name}} -&gt;
+            application_controller:start_application(Name, RestartType);
+        Error -&gt;
+            Error
+    end.</code></pre>
+
+
+<p><code>application_controller</code>是一个仿造的OTP进程（为什么要仿造，而不是直接使用gen_server或者proc_lib呢？）:</p>
+<pre class="highlight"><code>start(KernelApp) -&gt;
+    Init = self(),
+    AC = spawn_link(fun() -&gt; init(Init, KernelApp) end),
+    ...
+
+init(Init, KernelApp) -&gt;
+    register(?AC, self()),
+    process_flag(trap_exit, true),
+    put('$ancestors', [Init]), % OTP-5811, for gen_server compatibility
+    put('$initial_call', {application_controller, start, 1}),
+    ...</code></pre>
+
+
+<p><code>application_controller</code>确保Application的所有依赖应用都已启动，否则返回<code>{error, {not_started, App}}</code>，其中App是没有启动的依赖应用。在
+一个新建进程（为什么要在新进程中？），创建属于Application的application master进程:</p>
+<pre class="highlight"><code>handle_call({start_application, AppName, RestartType}, From, S) -&gt;
+    ...
+    case catch check_start_cond(AppName, RestartType, Started, Running) of
+        {ok, Appl} -&gt;
+             spawn_starter(From, Appl, S, normal),
+             {noreply, S#state{starting = [{AppName, RestartType, normal, From} |
+                                            Starting],
+                               start_req = [{AppName, From} | Start_req]}};
+        {error, _R} = Error -&gt;
+            {reply, Error, S}
+    end,
+    ...
+
+spawn_starter(From, Appl, S, Type) -&gt;
+    spawn_link(?MODULE, init_starter, [From, Appl, S, Type]).
+
+init_starter(_From, Appl, S, Type) -&gt;
+    process_flag(trap_exit, true),
+    AppName = Appl#appl.name,
+    gen_server:cast(?AC, {application_started, AppName, 
+              catch start_appl(Appl, S, Type)}).
+
+start_appl(Appl, S, Type) -&gt;
+    ...
+    application_master:start_link(ApplData, Type),
+    ...</code></pre>
+
+
+<p>group leader马上就要出现了。application master是Application的第一个进程，它会调用Application behaviour回调函数<code>Module:start/2</code>:</p>
+<pre class="highlight"><code>start_link(ApplData, Type) -&gt;
+    Parent = whereis(application_controller),
+    proc_lib:start_link(application_master, init,
+            [Parent, self(), ApplData, Type]).</code></pre>
+
+
+<p>在<code>init</code>函数前的一段注释中，描述了AM(application master)是如何启动应用的:</p>
+<pre class="highlight"><code>%%%-----------------------------------------------------------------
+%%% The logical and physical process structrure is as follows:
+%%%
+%%%         logical                physical
+%%%
+%%%         --------               --------
+%%%         |AM(GL)|               |AM(GL)|               
+%%%         --------               -------- 
+%%%            |                       |
+%%%         --------               --------
+%%%         |Appl P|               |   X  |
+%%%         --------               --------
+%%%                                    |
+%%%                                --------
+%%%                                |Appl P|
+%%%                                --------
+%%%
+%%% Where AM(GL) == Application Master (Group Leader)
+%%%       Appl P == The application specific root process (child to AM)
+%%%       X      == A special 'invisible' process
+%%% The reason for not using the logical structrure is that
+%%% the application start function is synchronous, and 
+%%% that the AM is GL.  This means that if AM executed the start
+%%% function, and this function uses spawn_request/1
+%%% or io, deadlock would occur.  Therefore, this function is
+%%% executed by the process X.  Also, AM needs three loops;
+%%% init_loop (waiting for the start function to return)
+%%% main_loop
+%%% terminate_loop (waiting for the process to die)
+%%% In each of these loops, io and other requests are handled.
+
+init(Parent, Starter, ApplData, Type) -&gt;
+    link(Parent),
+    process_flag(trap_exit, true),
+    OldGleader = group_leader(),
+    group_leader(self(), self()),
+    ...</code></pre>
+
+
+<p>group leader终于出现了，那么疑问就变成：什么是group leader？为什么AM不采用辅助进程的话会造成deadlock？</p>
+<h3>II. 什么是group leader</h3>
+<p>在erlang doc中，有关group leader是这样描述的：</p>
+<pre class="highlight"><code>Every process is a member of some process group and all groups have a group leader. 
+All IO from the group is channeled to the group leader. 
+When a new process is spawned, it gets the same group leader as the spawning process. 
+Initially, at system start-up, init is both its own group leader and the group leader of all processes.</code></pre>
+
+
+<p><code>group_leader()</code>可以返回当前进程的group leader，<code>group_leader(GL, Pid)</code>修改Pid进程的GL。</p>
+<p>以io:format/0为例，看看group leader怎么发挥作用。io:format会向GL发送消息，并且等待GL返回。这也解释了AM不采用
+辅助进程的话可能造成deadlock的原因。</p>
+<pre class="highlight"><code>format(Format, Args) -&gt;
+    format(default_output(), Format, Args).
+
+default_output() -&gt;
+    group_leader().
+
+format(Io, Format, Args) -&gt;
+    o_request(Io, {format,Format,Args}, format).
+
+o_request(Io, Request, Func) -&gt;
+    ...
+    request(Io, Request)
+    ...
+
+request(Pid, Request) when is_pid(Pid) -&gt;
+    execute_request(Pid, io_request(Pid, Request)),
+    ...
+
+execute_request(Pid, {Convert,Converted}) -&gt;
+    Pid ! {io_request,self(),Pid,Converted},
+    ...
+    wait_io_mon_reply(Pid, Mref),
+    ...
+
+wait_io_mon_reply(From, Mref) -&gt;
+    receive
+        {io_reply, From, Reply} -&gt;
+            erlang:demonitor(Mref, [flush]),
+            Reply;
+        {'EXIT', From, _What} -&gt;
+            receive
+                {'DOWN', Mref, _, _, _} -&gt; true
+            after 0 -&gt; true
+            end,
+            {error,terminated};
+        {'DOWN', Mref, _, _, _} -&gt;
+            receive
+                {'EXIT', From, _What} -&gt; true
+            after 0 -&gt; true
+            end,
+            {error,terminated}
+    end.</code></pre>
+
+
+<h3>III. 何时需要group leader</h3>
+<p>一般情况下，我们并不用关心group leader。但在某些场景下，可能需要对io进行拦截，这时候就
+需要修改进程的group leader。rpc模块就利用了这种技术，使得在远程节点运行的代码，结果输出
+在本地节点。本地node调用rpc时，group_leader()是参数之一。远程node spawn一个新进程来执行
+rpc，并将该进程GL修改为本地node提高的group_leader()，从而实现io的拦截。</p>
+<pre class="highlight"><code>%% code snippet of rpc.erl
+
+call(N,M,F,A) when node() =:= N -&gt;  %% Optimize local call
+    local_call(M, F, A);
+call(N,M,F,A) -&gt;
+    do_call(N, {call,M,F,A,group_leader()}, infinity).
+
+do_call(Node, Request, infinity) -&gt;
+    rpc_check(catch gen_server:call({?NAME,Node}, Request, infinity));
+
+handle_call({call, Mod, Fun, Args, Gleader}, To, S) -&gt;
+    handle_call_call(Mod, Fun, Args, Gleader, To, S);
+
+handle_call_call(Mod, Fun, Args, Gleader, To, S) -&gt;
+    RpcServer = self(),
+    %% Spawn not to block the rpc server.
+    {Caller,_} =
+    erlang:spawn_monitor(
+      fun () -&gt;
+          set_group_leader(Gleader),
+          Reply = 
+              %% in case some sucker rex'es 
+              %% something that throws
+              case catch apply(Mod, Fun, Args) of
+              {'EXIT', _} = Exit -&gt;
+                  {badrpc, Exit};
+              Result -&gt;
+                  Result
+              end,
+          RpcServer ! {self(), {reply, Reply}}
+      end),
+    {noreply, gb_trees:insert(Caller, To, S)}.
+
+set_group_leader(Gleader) when is_pid(Gleader) -&gt; 
+    group_leader(Gleader, self());
+set_group_leader(user) -&gt; 
+    %% For example, hidden C nodes doesn't want any I/O.
+    Gleader = case whereis(user) of
+          Pid when is_pid(Pid) -&gt; Pid;
+          undefined -&gt; proxy_user()
+          end,
+    group_leader(Gleader, self()).</code></pre>
+
+
+<p>在<code>set_group_leader/1</code>中，还能看到<code>user</code>的身影。官方文档中关于<code>user</code>的介绍：</p>
+<pre class="highlight"><code>MODULE SUMMARY
+Standard I/O Server
+
+DESCRIPTION
+user is a server which responds to all the messages defined in the I/O interface. 
+The code in user.erl can be used as a model for building alternative I/O servers.</code></pre>
+
+
+<p>所以，user是Erlang/OTP中默认的标准i/o进程，不知道io_request怎么处理时，往user扔应该不会错吧？ :)</p>
+<p>-EOF-</p>
+    <footer>
+        
+        
+            <p>tagged as
+                <a href="/tag/erlang/" rel="tag">erlang</a>
+                
+            </p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+    
+        <a href="/2014/the-myths-of-tools//" class="page floatright">
+        工具与生产力 &raquo;
+        </a>
+    
+    
+<footer>
+    
+    
+    <p>written by <a href="mailto:triadelphous#gmail.com">adelzhang</a></p>
+    <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/de/" rel="copyright license">
+        <img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="by-nc-sa" />
+    </a>
+    
+    
+
+  </footer>
+</body>
+</html>
