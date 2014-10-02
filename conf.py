@@ -8,7 +8,7 @@ WWW_ROOT = 'http://adelzhang.github.io/'
 AUTHOR = 'adelzhang'
 EMAIL = 'triadelphous#gmail.com'
 
-CONTENT_EXTENSION = ".markdown"
+CONTENT_EXTENSION = ".md"
 
 DEPLOYMENT = {
 		'github' : 'cd $OUTPUT_DIR && git push',
