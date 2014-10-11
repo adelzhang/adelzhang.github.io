@@ -28,6 +28,55 @@
     
         <article>
     <header>
+        <time datetime="2014-10-02">02.10.2014, 23:21</time>
+        <h1>
+            <a href="/2014/may-be-a-escript-bug/" rel="bookmark canonical">escript之诡秘</a>
+        </h1>
+    </header>
+    <p>escript方便用户将erlang当作script来用(<a href="/2014/may-be-a-escript-bug/#[1]">[1]</a>, <a href="/2014/may-be-a-escript-bug/#[2]">[2]</a>)。一个最简单的
+escript可以是这样的：</p>
+<pre class="highlight"><code class="linenums">#! /usr/bin/env escript
+main(_Args) -&gt;
+    io:format(&quot;hello world~n&quot;).</code></pre>
+
+
+<p>但是如果你是像下面这样写的话，事情就没有那么顺利了:</p>
+<pre class="highlight"><code class="linenums">#! /usr/bin/env escript
+main(_Args) -&gt; io:format(&quot;hello world~n&quot;).</code></pre>
+
+
+<p>会得到 <code>Premature end of file reached</code> 的错误。</p>
+<p>这与escript对文件前三行有特别的处理有关:</p>
+<ul>
+<li>第一行通常是shebang，以<code>%!</code>开头</li>
+<li>第二行可以是emacs的一些设置，以<code>%%</code>开头</li>
+<li>第三行可以是传递给emulator的选项，以<code>%%!</code>开头</li>
+</ul>
+<p>下面通过escript源代码，看看具体是怎么处理的。</p>
+<pre class="highlight"><code>%% Skip header and make a heuristic guess about the script type
+parse_header(File, KeepFirst) -&gt;
+    LineNo = 1,
+    ...
+    Line1 = get_line(Fd),
+    case classify_line(Line1) of
+        shebang -&gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{shebang = Line1});
+  </code></pre><span>&#8230;<a href="/2014/may-be-a-escript-bug/" class="continue">continue</a>.</span>
+    <footer>
+        
+        
+            <p>tagged as
+                <a href="/tag/erlang/" rel="tag">erlang</a>
+                
+            </p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+        <article>
+    <header>
         <time datetime="2014-09-20">20.09.2014, 20:31</time>
         <h1>
             <a href="/2014/what-is-group-leader/" rel="bookmark canonical">group leader二三事</a>

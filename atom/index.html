@@ -11,8 +11,130 @@
     <link rel="self" type="application/atom+xml" href="http://adelzhang.github.io/atom/" />
     <icon>http://adelzhang.github.io/favicon.ico</icon>
     <logo>http://adelzhang.github.io/feed-logo.png</logo>
-    <updated>2014-09-20T12:31:00Z</updated>
+    <updated>2014-10-02T15:21:00Z</updated>
     <generator uri="https://github.com/posativ/acrylamid/" version="0.7.8">acrylamid</generator>
+        <entry>
+        <title>escript之诡秘</title>
+        <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/may-be-a-escript-bug/" />
+        <id>tag:adelzhang.github.io,2014-10-02:/2014/may-be-a-escript-bug</id>
+        <updated>2014-10-02T15:21:00Z</updated>
+        <category term="erlang" />
+        
+        <author>
+            <name>adelzhang</name>
+            <uri>http://adelzhang.github.io/</uri>
+            <email>triadelphous#gmail.com</email>
+        </author>
+        <content type="html">&lt;p&gt;escript方便用户将erlang当作script来用(&lt;a href=&#34;http://adelzhang.github.io/2014/may-be-a-escript-bug/#[1]&#34;&gt;[1]&lt;/a&gt;, &lt;a href=&#34;http://adelzhang.github.io/2014/may-be-a-escript-bug/#[2]&#34;&gt;[2]&lt;/a&gt;)。一个最简单的
+escript可以是这样的：&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;linenums&#34;&gt;#! /usr/bin/env escript
+main(_Args) -&amp;gt;
+    io:format(&amp;quot;hello world~n&amp;quot;).&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;但是如果你是像下面这样写的话，事情就没有那么顺利了:&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;linenums&#34;&gt;#! /usr/bin/env escript
+main(_Args) -&amp;gt; io:format(&amp;quot;hello world~n&amp;quot;).&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;会得到 &lt;code&gt;Premature end of file reached&lt;/code&gt; 的错误。&lt;/p&gt;
+&lt;p&gt;这与escript对文件前三行有特别的处理有关:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一行通常是shebang，以&lt;code&gt;%!&lt;/code&gt;开头&lt;/li&gt;
+&lt;li&gt;第二行可以是emacs的一些设置，以&lt;code&gt;%%&lt;/code&gt;开头&lt;/li&gt;
+&lt;li&gt;第三行可以是传递给emulator的选项，以&lt;code&gt;%%!&lt;/code&gt;开头&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面通过escript源代码，看看具体是怎么处理的。&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;%% Skip header and make a heuristic guess about the script type
+parse_header(File, KeepFirst) -&amp;gt;
+    LineNo = 1,
+    ...
+    Line1 = get_line(Fd),
+    case classify_line(Line1) of
+        shebang -&amp;gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{shebang = Line1});
+        archive -&amp;gt;
+            {HeaderSz0, LineNo, Fd,
+                #sections{type = archive}};
+        beam -&amp;gt;
+            {HeaderSz0, LineNo, Fd,
+                #sections{type = beam}};
+        _ -&amp;gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{})
+    end.
+
+
+classify_line(Line) -&amp;gt;
+    case Line of
+        &amp;quot;#!&amp;quot; ++ _ -&amp;gt; shebang;
+        &amp;quot;PK&amp;quot; ++ _ -&amp;gt; archive;
+        &amp;quot;FOR1&amp;quot; ++ _ -&amp;gt; beam;
+        &amp;quot;%%!&amp;quot; ++ _ -&amp;gt; emu_args;
+        &amp;quot;%&amp;quot; ++ _ -&amp;gt; comment;
+        _ -&amp;gt; undefined
+    end.&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;parse_header/2&lt;/code&gt;对&lt;code&gt;Line1&lt;/code&gt;进行分析，当识别出是archive或者是beam时，可进行下一步处理；否则需要继续寻找头部结束的位置。&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst, Sections) -&amp;gt;
+    {ok, HeaderSz1} = file:position(Fd, cur),
+    %% Look for special comment on second line
+    Line2 = get_line(Fd),
+    {ok, HeaderSz2} = file:position(Fd, cur),
+    case classify_line(Line2) of
+        emu_args -&amp;gt;
+            %% Skip special comment on second line
+            Line3 = get_line(Fd),
+            {HeaderSz2, LineNo + 2, Fd,
+                Sections#sections{type = guess_type(Line3),
+                comment = undefined,
+                emu_args = Line2}};
+        Line2Type -&amp;gt;
+            %% Look for special comment on third line
+            Line3 = get_line(Fd),
+            {ok, HeaderSz3} = file:position(Fd, cur),
+            Line3Type = classify_line(Line3),
+            if
+            Line3Type =:= emu_args -&amp;gt;
+                %% Skip special comment on third line
+                Line4 = get_line(Fd),
+                {HeaderSz3, LineNo + 3, Fd,
+                    Sections#sections{type = guess_type(Line4),
+                    comment = Line2,
+                    emu_args = Line3}};
+            Sections#sections.shebang =:= undefined,
+            KeepFirst =:= true -&amp;gt;
+                %% No shebang. Use the entire file
+                {HeaderSz0, LineNo, Fd,
+                    Sections#sections{type = guess_type(Line2)}};
+            Sections#sections.shebang =:= undefined -&amp;gt;
+                %% No shebang. Skip the first line
+                {HeaderSz1, LineNo, Fd,
+                    Sections#sections{type = guess_type(Line2)}};
+            Line2Type =:= comment -&amp;gt;
+                %% Skip shebang on first line and comment on second
+                {HeaderSz2, LineNo + 2, Fd,
+                    Sections#sections{type = guess_type(Line3),
+                    comment = Line2}};
+            true -&amp;gt;
+                %% Just skip shebang on first line
+                {HeaderSz1, LineNo + 1, Fd,
+                    Sections#sections{type = guess_type(Line2)}}
+            end
+    end.&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;问题就出在&lt;code&gt;find_first_body_line/5&lt;/code&gt;直接读取Line3，当文件只有两行时会被当成文件
+异常结束。&lt;/p&gt;
+&lt;p&gt;或许可以写个PullRequest？ :)&lt;/p&gt;
+&lt;h3&gt;Ref&lt;/h3&gt;
+&lt;p&gt;&lt;span id=&#34;[1]&#34;&gt;[1]&lt;/span&gt; &lt;a href=&#34;http://www.erlang.org/doc/man/escript.html&#34;&gt;escript&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span id=&#34;[2]&#34;&gt;[2]&lt;/span&gt; &lt;a href=&#34;http://blog.yufeng.info/archives/153&#34;&gt;escript的高级特性&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;-EOF-&lt;/p&gt;</content>
+    </entry>
+    
         <entry>
         <title>group leader二三事</title>
         <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/what-is-group-leader/" />

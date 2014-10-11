@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>escript之诡秘</title>
+  <link media="all" href="/style.css" rel="stylesheet" />
+  <link href="/favicon.ico" rel="shortcut icon" />
+    <link href="/sitemap.xml" type="application/xml" rel="sitemap" title="Sitemap">
+  <link href="/" rel="home start" />
+  <link href="/atom/" type="application/atom+xml" rel="alternate" title="Atom Feed" />
+  <link href="/rss/" type="application/rss+xml" rel="alternate" title="RSS Feed" />
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+    <meta name="description" content="escript方便用户将erlang当作script来用([[1]](#[1]), [[2]](#[..." />
+    <meta name="keywords" content="erlang" />
+</head>
+<body>
+  <header>
+    <h1><a href="/" rel="home start" class="blogtitle">/home/adelzhang</a></h1>
+    <nav>
+      <ul>
+        <li><a href="/" rel="home start">blog</a></li>
+        <li><a href="/atom/" rel="alternate">atom</a></li>
+        <li><a href="/rss/" rel="alternate">rss</a></li>
+        <li><a href="/articles/" rel="contents">articles</a></li>
+      </ul>
+    </nav>
+  </header>
+    
+        <article>
+    <header>
+        <time datetime="2014-10-02">02.10.2014, 23:21</time>
+        <h1>
+            <a href="/2014/may-be-a-escript-bug/" rel="bookmark canonical">escript之诡秘</a>
+        </h1>
+    </header>
+    <p>escript方便用户将erlang当作script来用(<a href="#[1]">[1]</a>, <a href="#[2]">[2]</a>)。一个最简单的
+escript可以是这样的：</p>
+<pre class="highlight"><code class="linenums">#! /usr/bin/env escript
+main(_Args) -&gt;
+    io:format(&quot;hello world~n&quot;).</code></pre>
+
+
+<p>但是如果你是像下面这样写的话，事情就没有那么顺利了:</p>
+<pre class="highlight"><code class="linenums">#! /usr/bin/env escript
+main(_Args) -&gt; io:format(&quot;hello world~n&quot;).</code></pre>
+
+
+<p>会得到 <code>Premature end of file reached</code> 的错误。</p>
+<p>这与escript对文件前三行有特别的处理有关:</p>
+<ul>
+<li>第一行通常是shebang，以<code>%!</code>开头</li>
+<li>第二行可以是emacs的一些设置，以<code>%%</code>开头</li>
+<li>第三行可以是传递给emulator的选项，以<code>%%!</code>开头</li>
+</ul>
+<p>下面通过escript源代码，看看具体是怎么处理的。</p>
+<pre class="highlight"><code>%% Skip header and make a heuristic guess about the script type
+parse_header(File, KeepFirst) -&gt;
+    LineNo = 1,
+    ...
+    Line1 = get_line(Fd),
+    case classify_line(Line1) of
+        shebang -&gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{shebang = Line1});
+        archive -&gt;
+            {HeaderSz0, LineNo, Fd,
+                #sections{type = archive}};
+        beam -&gt;
+            {HeaderSz0, LineNo, Fd,
+                #sections{type = beam}};
+        _ -&gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{})
+    end.
+
+
+classify_line(Line) -&gt;
+    case Line of
+        &quot;#!&quot; ++ _ -&gt; shebang;
+        &quot;PK&quot; ++ _ -&gt; archive;
+        &quot;FOR1&quot; ++ _ -&gt; beam;
+        &quot;%%!&quot; ++ _ -&gt; emu_args;
+        &quot;%&quot; ++ _ -&gt; comment;
+        _ -&gt; undefined
+    end.</code></pre>
+
+
+<p><code>parse_header/2</code>对<code>Line1</code>进行分析，当识别出是archive或者是beam时，可进行下一步处理；否则需要继续寻找头部结束的位置。</p>
+<pre class="highlight"><code>find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst, Sections) -&gt;
+    {ok, HeaderSz1} = file:position(Fd, cur),
+    %% Look for special comment on second line
+    Line2 = get_line(Fd),
+    {ok, HeaderSz2} = file:position(Fd, cur),
+    case classify_line(Line2) of
+        emu_args -&gt;
+            %% Skip special comment on second line
+            Line3 = get_line(Fd),
+            {HeaderSz2, LineNo + 2, Fd,
+                Sections#sections{type = guess_type(Line3),
+                comment = undefined,
+                emu_args = Line2}};
+        Line2Type -&gt;
+            %% Look for special comment on third line
+            Line3 = get_line(Fd),
+            {ok, HeaderSz3} = file:position(Fd, cur),
+            Line3Type = classify_line(Line3),
+            if
+            Line3Type =:= emu_args -&gt;
+                %% Skip special comment on third line
+                Line4 = get_line(Fd),
+                {HeaderSz3, LineNo + 3, Fd,
+                    Sections#sections{type = guess_type(Line4),
+                    comment = Line2,
+                    emu_args = Line3}};
+            Sections#sections.shebang =:= undefined,
+            KeepFirst =:= true -&gt;
+                %% No shebang. Use the entire file
+                {HeaderSz0, LineNo, Fd,
+                    Sections#sections{type = guess_type(Line2)}};
+            Sections#sections.shebang =:= undefined -&gt;
+                %% No shebang. Skip the first line
+                {HeaderSz1, LineNo, Fd,
+                    Sections#sections{type = guess_type(Line2)}};
+            Line2Type =:= comment -&gt;
+                %% Skip shebang on first line and comment on second
+                {HeaderSz2, LineNo + 2, Fd,
+                    Sections#sections{type = guess_type(Line3),
+                    comment = Line2}};
+            true -&gt;
+                %% Just skip shebang on first line
+                {HeaderSz1, LineNo + 1, Fd,
+                    Sections#sections{type = guess_type(Line2)}}
+            end
+    end.</code></pre>
+
+
+<p>问题就出在<code>find_first_body_line/5</code>直接读取Line3，当文件只有两行时会被当成文件
+异常结束。</p>
+<p>或许可以写个PullRequest？ :)</p>
+<h2>Ref</h2>
+<p><span id="[1]">[1]</span> <a href="http://www.erlang.org/doc/man/escript.html">escript</a></p>
+<p><span id="[2]">[2]</span> <a href="http://blog.yufeng.info/archives/153">escript的高级特性</a></p>
+<p>-EOF-</p>
+    <footer>
+        
+        
+            <p>tagged as
+                <a href="/tag/erlang/" rel="tag">erlang</a>
+                
+            </p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+    
+        <a href="/2014/what-is-group-leader//" class="page floatright">
+        group leader二三事 &raquo;
+        </a>
+    
+    
+<footer>
+    
+    
+    <p>written by <a href="mailto:triadelphous#gmail.com">adelzhang</a></p>
+    <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/de/" rel="copyright license">
+        <img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="by-nc-sa" />
+    </a>
+    
+    
+
+  </footer>
+</body>
+</html>
