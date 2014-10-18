@@ -11,8 +11,69 @@
     <link rel="self" type="application/atom+xml" href="http://adelzhang.github.io/atom/" />
     <icon>http://adelzhang.github.io/favicon.ico</icon>
     <logo>http://adelzhang.github.io/feed-logo.png</logo>
-    <updated>2014-10-02T15:21:00Z</updated>
+    <updated>2014-10-18T10:41:00Z</updated>
     <generator uri="https://github.com/posativ/acrylamid/" version="0.7.8">acrylamid</generator>
+        <entry>
+        <title>0x7c00</title>
+        <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/why-0x7c00/" />
+        <id>tag:adelzhang.github.io,2014-10-18:/2014/why-0x7c00</id>
+        <updated>2014-10-18T10:41:00Z</updated>
+        
+        <author>
+            <name>adelzhang</name>
+            <uri>http://adelzhang.github.io/</uri>
+            <email>triadelphous#gmail.com</email>
+        </author>
+        <content type="html">&lt;p&gt;&lt;code&gt;BIOS&lt;/code&gt;完成自检(&lt;code&gt;POST&lt;/code&gt;,Power-on self-test)后，将MBR(Master Boot Record)加载到
+Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，MBR必须以&lt;code&gt;0xAA55&lt;/code&gt;为结尾，&lt;code&gt;BIOS&lt;/code&gt;检测最后两个字节来判断是
+否是合法的MBR。&lt;/p&gt;
+&lt;p&gt;那么现在问题来了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;为什么&lt;code&gt;BIOS&lt;/code&gt;会将MBR加载到0x7c00，而不是其他位置，比如说0x0？&lt;/li&gt;
+&lt;li&gt;为什么选择&lt;code&gt;0xAA55&lt;/code&gt;作为MBR标志？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意到&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;可见0x7c00并不是随意选择的地址。&lt;/p&gt;
+&lt;p&gt;其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;预留最多的地址空间给DOS&lt;/li&gt;
+&lt;li&gt;DOS操作系统最小内存要求是32KB&lt;/li&gt;
+&lt;li&gt;8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区&lt;/li&gt;
+&lt;li&gt;启动扇区总共为512字节，还需要额外空间作为栈或数据区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
+节加载MBR是一个合理的决定。&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;+--------------------- 0x0
+| Interrupts vectors
++--------------------- 0x400
+| BIOS data area
++--------------------- 0x5??
+| OS load area
++--------------------- 0x7C00
+| Boot sector
++--------------------- 0x7E00
+| Boot data/stack
++--------------------- 0x7FFF
+| (not used)
++--------------------- (...)&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+成&lt;/p&gt;
+&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;01010101 10101010&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;p&gt;看着这么整齐可爱的模样，只能说是出于偏爱的原因。&lt;/p&gt;
+&lt;h3&gt;Ref&lt;/h3&gt;
+&lt;p&gt;[1] &lt;a href=&#34;http://www.glamenv-septzen.net/en/view/6&#34;&gt;why bios loads MBR into 0x7c00 in x86?&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;-EOF-&lt;/p&gt;</content>
+    </entry>
+    
         <entry>
         <title>escript之诡秘</title>
         <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/may-be-a-escript-bug/" />

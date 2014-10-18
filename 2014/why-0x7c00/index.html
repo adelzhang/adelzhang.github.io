@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>0x7c00</title>
+  <link media="all" href="/style.css" rel="stylesheet" />
+  <link href="/favicon.ico" rel="shortcut icon" />
+    <link href="/sitemap.xml" type="application/xml" rel="sitemap" title="Sitemap">
+  <link href="/" rel="home start" />
+  <link href="/atom/" type="application/atom+xml" rel="alternate" title="Atom Feed" />
+  <link href="/rss/" type="application/rss+xml" rel="alternate" title="RSS Feed" />
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+    <meta name="description" content="`BIOS`完成自检(`POST`,Power-on self-test)后，将MBR(Master..." />
+    <meta name="keywords" content="" />
+</head>
+<body>
+  <header>
+    <h1><a href="/" rel="home start" class="blogtitle">/home/adelzhang</a></h1>
+    <nav>
+      <ul>
+        <li><a href="/" rel="home start">blog</a></li>
+        <li><a href="/atom/" rel="alternate">atom</a></li>
+        <li><a href="/rss/" rel="alternate">rss</a></li>
+        <li><a href="/articles/" rel="contents">articles</a></li>
+      </ul>
+    </nav>
+  </header>
+    
+        <article>
+    <header>
+        <time datetime="2014-10-18">18.10.2014, 18:41</time>
+        <h1>
+            <a href="/2014/why-0x7c00/" rel="bookmark canonical">0x7c00</a>
+        </h1>
+    </header>
+    <p><code>BIOS</code>完成自检(<code>POST</code>,Power-on self-test)后，将MBR(Master Boot Record)加载到
+Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，MBR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
+否是合法的MBR。</p>
+<p>那么现在问题来了：</p>
+<ul>
+<li>为什么<code>BIOS</code>会将MBR加载到0x7c00，而不是其他位置，比如说0x0？</li>
+<li>为什么选择<code>0xAA55</code>作为MBR标志？</li>
+</ul>
+<p>注意到</p>
+<pre class="highlight"><code>0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B</code></pre>
+
+
+<p>可见0x7c00并不是随意选择的地址。</p>
+<p>其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：</p>
+<ul>
+<li>预留最多的地址空间给DOS</li>
+<li>DOS操作系统最小内存要求是32KB</li>
+<li>8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区</li>
+<li>启动扇区总共为512字节，还需要额外空间作为栈或数据区</li>
+</ul>
+<p>参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
+节加载MBR是一个合理的决定。</p>
+<pre class="highlight"><code>+--------------------- 0x0
+| Interrupts vectors
++--------------------- 0x400
+| BIOS data area
++--------------------- 0x5??
+| OS load area
++--------------------- 0x7C00
+| Boot sector
++--------------------- 0x7E00
+| Boot data/stack
++--------------------- 0x7FFF
+| (not used)
++--------------------- (...)</code></pre>
+
+
+<p>至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+成</p>
+<pre class="highlight"><code>01010101 10101010</code></pre>
+
+
+<p>看着这么整齐可爱的模样，只能说是出于偏爱的原因。</p>
+<h2>Ref</h2>
+<p>[1] <a href="http://www.glamenv-septzen.net/en/view/6">why bios loads MBR into 0x7c00 in x86?</a></p>
+<p>-EOF-</p>
+    <footer>
+        
+        
+            <p>untagged</p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+    
+        <a href="/2014/may-be-a-escript-bug//" class="page floatright">
+        escript之诡秘 &raquo;
+        </a>
+    
+    
+<footer>
+    
+    
+    <p>written by <a href="mailto:triadelphous#gmail.com">adelzhang</a></p>
+    <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/de/" rel="copyright license">
+        <img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="by-nc-sa" />
+    </a>
+    
+    
+
+  </footer>
+</body>
+</html>
