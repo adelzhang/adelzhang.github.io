@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>group leader二三事</title>
@@ -34,11 +34,11 @@
     <header>
         <time datetime="2014-09-20">20.09.2014, 20:31</time>
         <h1>
-            <a href="/2014/what-is-group-leader/" rel="bookmark canonical">group leader二三事</a>
+            <a href="/2014/group-leaderer-san-shi/" rel="bookmark canonical">group leader二三事</a>
         </h1>
     </header>
     <h3>I. group leader在哪</h3>
-<p>有很多地方可以发现group leader的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
+<p>有很多地方可以发现&shy;group lead&shy;er的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
 是对<code>application_controller</code>的封装：</p>
 <pre class="highlight"><code>start(Application, RestartType) -&gt;
     case load(Application) of
@@ -52,7 +52,7 @@
     end.</code></pre>
 
 
-<p><code>application_controller</code>是一个仿造的OTP进程（为什么要仿造，而不是直接使用gen_server或者proc_lib呢？）:</p>
+<p><code>application_controller</code>是一个仿造的OT&shy;P进程（为什么要仿造，而不是直接使用&shy;gen_server或者proc_lib呢？）:</p>
 <pre class="highlight"><code>start(KernelApp) -&gt;
     Init = self(),
     AC = spawn_link(fun() -&gt; init(Init, KernelApp) end),
@@ -66,8 +66,8 @@ init(Init, KernelApp) -&gt;
     ...</code></pre>
 
 
-<p><code>application_controller</code>确保Application的所有依赖应用都已启动，否则返回<code>{error, {not_started, App}}</code>，其中App是没有启动的依赖应用。在
-一个新建进程（为什么要在新进程中？），创建属于Application的application master进程:</p>
+<p><code>application_controller</code>确保Ap&shy;pli&shy;ca&shy;tion的所有依赖应用都已启动，否则返回<code>{error, {not_started, App}}</code>，其中Ap&shy;p是没有启动的依赖应用。在
+一个新建进程（为什么要在新进程中？），创建属于Ap&shy;pli&shy;ca&shy;tion的ap&shy;pli&shy;ca&shy;tion master进程:</p>
 <pre class="highlight"><code>handle_call({start_application, AppName, RestartType}, From, S) -&gt;
     ...
     case catch check_start_cond(AppName, RestartType, Started, Running) of
@@ -96,14 +96,14 @@ start_appl(Appl, S, Type) -&gt;
     ...</code></pre>
 
 
-<p>group leader马上就要出现了。application master是Application的第一个进程，它会调用Application behaviour回调函数<code>Module:start/2</code>:</p>
+<p>group lead&shy;er马上就要出现了。ap&shy;pli&shy;ca&shy;tion mas&shy;ter是Ap&shy;pli&shy;ca&shy;tion的第一个进程，它会调用Ap&shy;pli&shy;ca&shy;tion be&shy;hav&shy;iour回调函数<code>Module:start/2</code>:</p>
 <pre class="highlight"><code>start_link(ApplData, Type) -&gt;
     Parent = whereis(application_controller),
     proc_lib:start_link(application_master, init,
             [Parent, self(), ApplData, Type]).</code></pre>
 
 
-<p>在<code>init</code>函数前的一段注释中，描述了AM(application master)是如何启动应用的:</p>
+<p>在<code>init</code>函数前的一段注释中，描述了AM(ap&shy;pli&shy;ca&shy;tion master)是如何启动应用的:</p>
 <pre class="highlight"><code>%%%-----------------------------------------------------------------
 %%% The logical and physical process structrure is as follows:
 %%%
@@ -143,18 +143,18 @@ init(Parent, Starter, ApplData, Type) -&gt;
     ...</code></pre>
 
 
-<p>group leader终于出现了，那么疑问就变成：什么是group leader？为什么AM不采用辅助进程的话会造成deadlock？</p>
+<p>group lead&shy;er终于出现了，那么疑问就变成：什么是&shy;group lead&shy;er？为什么AM不采用辅助进程的话会造成dead&shy;lock？</p>
 <h3>II. 什么是group leader</h3>
-<p>在erlang doc中，有关group leader是这样描述的：</p>
+<p>在erlang doc中，有关&shy;group lead&shy;er是这样描述的：</p>
 <pre class="highlight"><code>Every process is a member of some process group and all groups have a group leader. 
 All IO from the group is channeled to the group leader. 
 When a new process is spawned, it gets the same group leader as the spawning process. 
 Initially, at system start-up, init is both its own group leader and the group leader of all processes.</code></pre>
 
 
-<p><code>group_leader()</code>可以返回当前进程的group leader，<code>group_leader(GL, Pid)</code>修改Pid进程的GL。</p>
-<p>以io:format/0为例，看看group leader怎么发挥作用。io:format会向GL发送消息，并且等待GL返回。这也解释了AM不采用
-辅助进程的话可能造成deadlock的原因。</p>
+<p><code>group_leader()</code>可以返回当前进程的&shy;group leader，<code>group_leader(GL, Pid)</code>修改Pid进程的GL。</p>
+<p>以io:format/0为例，看看&shy;group lead&shy;er怎么发挥作用。io:for&shy;mat会向GL发送消息，并且等待GL返回。这也解释了AM不采用
+辅助进程的话可能造成dead&shy;lock&shy;的原因。</p>
 <pre class="highlight"><code>format(Format, Args) -&gt;
     format(default_output(), Format, Args).
 
@@ -200,10 +200,10 @@ wait_io_mon_reply(From, Mref) -&gt;
 
 
 <h3>III. 何时需要group leader</h3>
-<p>一般情况下，我们并不用关心group leader。但在某些场景下，可能需要对io进行拦截，这时候就
-需要修改进程的group leader。rpc模块就利用了这种技术，使得在远程节点运行的代码，结果输出
-在本地节点。本地node调用rpc时，group_leader()是参数之一。远程node spawn一个新进程来执行
-rpc，并将该进程GL修改为本地node提高的group_leader()，从而实现io的拦截。</p>
+<p>一般情况下，我们并不用关心&shy;group lead&shy;er。但在某些场景下，可能需要对io进行拦截，这时候就
+需要修改进程的&shy;group lead&shy;er。r&shy;pc模块就利用了这种技术，使得在远程节点运行的代码，结果输出
+在本地节点。本地n&shy;ode调用r&shy;pc时，&shy;group_leader()是参数之一。远程n&shy;ode spawn一个新进程来执行
+rpc，并将该进程GL修改为本地n&shy;ode提高的&shy;group_leader()，从而实现io的拦截。</p>
 <pre class="highlight"><code>%% code snippet of rpc.erl
 
 call(N,M,F,A) when node() =:= N -&gt;  %% Optimize local call
@@ -257,7 +257,7 @@ user is a server which responds to all the messages defined in the I/O interface
 The code in user.erl can be used as a model for building alternative I/O servers.</code></pre>
 
 
-<p>所以，user是Erlang/OTP中默认的标准i/o进程，不知道io_request怎么处理时，往user扔应该不会错吧？ :)</p>
+<p>所以，user是Er&shy;lang/OTP中默认的标准i/o进程，不知道io_re&shy;quest怎么处理时，往user扔应该不会错吧？ :)</p>
 <p>-EOF-</p>
     <footer>
         
@@ -272,12 +272,12 @@ The code in user.erl can be used as a model for building alternative I/O servers
 </article>
     
     
-        <a href="/2014/the-myths-of-tools//" class="page floatright">
+        <a href="/2014/gong-ju-yu-sheng-chan-li//" class="page floatright">
         工具与生产力 &raquo;
         </a>
     
     
-        <a href="/2014/may-be-a-escript-bug//" class="page floatleft">
+        <a href="/2014/escriptzhi-gui-mi//" class="page floatleft">
         &laquo; escript之诡秘
         </a>
 <footer>

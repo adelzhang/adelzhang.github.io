@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>escript之诡秘</title>
@@ -32,11 +32,11 @@
     <header>
         <time datetime="2014-10-02">02.10.2014, 23:21</time>
         <h1>
-            <a href="/2014/may-be-a-escript-bug/" rel="bookmark canonical">escript之诡秘</a>
+            <a href="/2014/escriptzhi-gui-mi/" rel="bookmark canonical">escript之诡秘</a>
         </h1>
     </header>
-    <p>escript方便用户将erlang当作script来用(<a href="#[1]">[1]</a>, <a href="#[2]">[2]</a>)。一个最简单的
-escript可以是这样的：</p>
+    <p>es&shy;crip&shy;t方便用户将er&shy;lang当作scrip&shy;t来用(<a href="#[1]">[1]</a>, <a href="#[2]">[2]</a>)。一个最简单的
+es&shy;crip&shy;t可以是这样的：</p>
 <pre class="highlight"><code class="linenums">#! /usr/bin/env escript
 main(_Args) -&gt;
     io:format(&quot;hello world~n&quot;).</code></pre>
@@ -48,13 +48,13 @@ main(_Args) -&gt; io:format(&quot;hello world~n&quot;).</code></pre>
 
 
 <p>会得到 <code>Premature end of file reached</code> 的错误。</p>
-<p>这与escript对文件前三行有特别的处理有关:</p>
+<p>这与e&shy;scrip&shy;t对文件前三行有特别的处理有关:</p>
 <ul>
-<li>第一行通常是shebang，以<code>%!</code>开头</li>
-<li>第二行可以是emacs的一些设置，以<code>%%</code>开头</li>
-<li>第三行可以是传递给emulator的选项，以<code>%%!</code>开头</li>
+<li>第一行通常是she&shy;bang，以<code>%!</code>开头</li>
+<li>第二行可以是emac&shy;s的一些设置，以<code>%%</code>开头</li>
+<li>第三行可以是传递给em&shy;u&shy;la&shy;tor的选项，以<code>%%!</code>开头</li>
 </ul>
-<p>下面通过escript源代码，看看具体是怎么处理的。</p>
+<p>下面通过e&shy;scrip&shy;t源代码，看看具体是怎么处理的。</p>
 <pre class="highlight"><code>%% Skip header and make a heuristic guess about the script type
 parse_header(File, KeepFirst) -&gt;
     LineNo = 1,
@@ -136,12 +136,12 @@ classify_line(Line) -&gt;
     end.</code></pre>
 
 
-<p>问题就出在<code>find_first_body_line/5</code>直接读取Line3，当文件只有两行时会被当成文件
+<p>问题就出在<code>find_first_body_line/5</code>直接读取&shy;Line3，当文件只有两行时会被当成文件
 异常结束。</p>
-<p>或许可以写个PullRequest？ :)</p>
+<p>或许可以写个Pull&shy;Re&shy;quest？ :)</p>
 <h2>Ref</h2>
 <p><span id="[1]">[1]</span> <a href="http://www.erlang.org/doc/man/escript.html">escript</a></p>
-<p><span id="[2]">[2]</span> <a href="http://blog.yufeng.info/archives/153">escript的高级特性</a></p>
+<p><span id="[2]">[2]</span> <a href="http://blog.yufeng.info/archives/153">es&shy;crip&shy;t的高级特性</a></p>
 <p>-EOF-</p>
     <footer>
         
@@ -156,12 +156,12 @@ classify_line(Line) -&gt;
 </article>
     
     
-        <a href="/2014/what-is-group-leader//" class="page floatright">
+        <a href="/2014/group-leaderer-san-shi//" class="page floatright">
         group leader二三事 &raquo;
         </a>
     
     
-        <a href="/2014/why-0x7c00//" class="page floatleft">
+        <a href="/2014/0x7c00//" class="page floatleft">
         &laquo; 0x7c00
         </a>
 <footer>

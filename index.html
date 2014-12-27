@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>/home/adelzhang</title>
@@ -30,16 +30,16 @@
     <header>
         <time datetime="2014-10-18">18.10.2014, 18:41</time>
         <h1>
-            <a href="/2014/why-0x7c00/" rel="bookmark canonical">0x7c00</a>
+            <a href="/2014/0x7c00/" rel="bookmark canonical">0x7c00</a>
         </h1>
     </header>
     <p><code>BIOS</code>完成自检(<code>POST</code>,Power-on self-test)后，将MBR(Master Boot Record)加载到
-Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
-硬盘每个扇区有512字节，MBR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
+Ox7c00位置，然后跳转到该地址执行。M&shy;BR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，M&shy;BR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
 否是合法的MBR。</p>
 <p>那么现在问题来了：</p>
 <ul>
-<li>为什么<code>BIOS</code>会将MBR加载到0x7c00，而不是其他位置，比如说0x0？</li>
+<li>为什么<code>BIOS</code>会将M&shy;BR加载到0x7c00，而不是其他位置，比如说0x0？</li>
 <li>为什么选择<code>0xAA55</code>作为MBR标志？</li>
 </ul>
 <p>注意到</p>
@@ -48,15 +48,15 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 
 
 <p>可见0x7c00并不是随意选择的地址。</p>
-<p>其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：</p>
+<p>其实这跟第一台IBM PC和&shy;DOS有关。BIOS选择0x7c00主要有以下原因：</p>
 <ul>
-<li>预留最多的地址空间给DOS</li>
+<li>预留最多的地址空间给&shy;DOS</li>
 <li>DOS操作系统最小内存要求是32KB</li>
-<li>8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区</li>
+<li>8086/8088使用0x0 - 0x3F&shy;F作为中断向量表，紧接着BIOS数据区</li>
 <li>启动扇区总共为512字节，还需要额外空间作为栈或数据区</li>
 </ul>
-<p>参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
-节加载MBR是一个合理的决定。</p>
+<p>参考内存分布图，在低地址空间已被占用，内存至少32K&shy;B的情况下，在高地址腾出1024字
+节加载M&shy;BR是一个合理的决定。</p>
 <pre class="highlight"><code>+--------------------- 0x0
 | Interrupts vectors
 +--------------------- 0x400
@@ -72,7 +72,7 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 +--------------------- (...)</code></pre>
 
 
-<p>至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+<p>至于为什么使用0x&shy;AA55作为M&shy;BR标志，考虑到x86使用的是小尾序，0x&shy;AA55在内存中会记录
 成</p>
 <pre class="highlight"><code>01010101 10101010</code></pre>
 
@@ -94,11 +94,11 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
     <header>
         <time datetime="2014-10-02">02.10.2014, 23:21</time>
         <h1>
-            <a href="/2014/may-be-a-escript-bug/" rel="bookmark canonical">escript之诡秘</a>
+            <a href="/2014/escriptzhi-gui-mi/" rel="bookmark canonical">escript之诡秘</a>
         </h1>
     </header>
-    <p>escript方便用户将erlang当作script来用(<a href="/2014/may-be-a-escript-bug/#[1]">[1]</a>, <a href="/2014/may-be-a-escript-bug/#[2]">[2]</a>)。一个最简单的
-escript可以是这样的：</p>
+    <p>es&shy;crip&shy;t方便用户将er&shy;lang当作scrip&shy;t来用(<a href="/2014/escriptzhi-gui-mi/#[1]">[1]</a>, <a href="/2014/escriptzhi-gui-mi/#[2]">[2]</a>)。一个最简单的
+es&shy;crip&shy;t可以是这样的：</p>
 <pre class="highlight"><code class="linenums">#! /usr/bin/env escript
 main(_Args) -&gt;
     io:format(&quot;hello world~n&quot;).</code></pre>
@@ -110,13 +110,13 @@ main(_Args) -&gt; io:format(&quot;hello world~n&quot;).</code></pre>
 
 
 <p>会得到 <code>Premature end of file reached</code> 的错误。</p>
-<p>这与escript对文件前三行有特别的处理有关:</p>
+<p>这与e&shy;scrip&shy;t对文件前三行有特别的处理有关:</p>
 <ul>
-<li>第一行通常是shebang，以<code>%!</code>开头</li>
-<li>第二行可以是emacs的一些设置，以<code>%%</code>开头</li>
-<li>第三行可以是传递给emulator的选项，以<code>%%!</code>开头</li>
+<li>第一行通常是she&shy;bang，以<code>%!</code>开头</li>
+<li>第二行可以是emac&shy;s的一些设置，以<code>%%</code>开头</li>
+<li>第三行可以是传递给em&shy;u&shy;la&shy;tor的选项，以<code>%%!</code>开头</li>
 </ul>
-<p>下面通过escript源代码，看看具体是怎么处理的。</p>
+<p>下面通过e&shy;scrip&shy;t源代码，看看具体是怎么处理的。</p>
 <pre class="highlight"><code>%% Skip header and make a heuristic guess about the script type
 parse_header(File, KeepFirst) -&gt;
     LineNo = 1,
@@ -126,7 +126,7 @@ parse_header(File, KeepFirst) -&gt;
         shebang -&gt;
             find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
                  #sections{shebang = Line1});
-  </code></pre><span>&#8230;<a href="/2014/may-be-a-escript-bug/" class="continue">continue</a>.</span>
+  </code></pre><span>&#8230;<a href="/2014/escriptzhi-gui-mi/" class="continue">continue</a>.</span>
     <footer>
         
         
@@ -143,11 +143,11 @@ parse_header(File, KeepFirst) -&gt;
     <header>
         <time datetime="2014-09-20">20.09.2014, 20:31</time>
         <h1>
-            <a href="/2014/what-is-group-leader/" rel="bookmark canonical">group leader二三事</a>
+            <a href="/2014/group-leaderer-san-shi/" rel="bookmark canonical">group leader二三事</a>
         </h1>
     </header>
     <h3>I. group leader在哪</h3>
-<p>有很多地方可以发现group leader的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
+<p>有很多地方可以发现&shy;group lead&shy;er的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
 是对<code>application_controller</code>的封装：</p>
 <pre class="highlight"><code>start(Application, RestartType) -&gt;
     case load(Application) of
@@ -161,9 +161,9 @@ parse_header(File, KeepFirst) -&gt;
     end.</code></pre>
 
 
-<p><code>application_controller</code>是一个仿造的OTP进程（为什么要仿造，而不是直接使用gen_server或者proc_lib呢？）:</p>
+<p><code>application_controller</code>是一个仿造的OT&shy;P进程（为什么要仿造，而不是直接使用&shy;gen_server或者proc_lib呢？）:</p>
 <pre class="highlight"><code>start(KernelApp) -&gt;
-   </code></pre><span>&#8230;<a href="/2014/what-is-group-leader/" class="continue">continue</a>.</span>
+   </code></pre><span>&#8230;<a href="/2014/group-leaderer-san-shi/" class="continue">continue</a>.</span>
     <footer>
         
         
@@ -180,10 +180,10 @@ parse_header(File, KeepFirst) -&gt;
     <header>
         <time datetime="2014-09-14">14.09.2014, 23:09</time>
         <h1>
-            <a href="/2014/the-myths-of-tools/" rel="bookmark canonical">工具与生产力</a>
+            <a href="/2014/gong-ju-yu-sheng-chan-li/" rel="bookmark canonical">工具与生产力</a>
         </h1>
     </header>
-    <p>最近周围好多人都换成机械键盘，甚至也有HHKB。我试着把玩了几下，手感较薄膜键盘还是
+    <p>最近周围好多人都换成机械键盘，甚至也有HHK&shy;B。我试着把玩了几下，手感较薄膜键盘还是
 有些提升的，加上更适合码农的键位，看着是挺诱人的。要是以前的我，心中必定一地鸡
 毛，然后一通调研比较各种牌子价位，最后因为囊中羞涩而作罢，时间也浪费掉了。而现在
 我学的淡定了许多。从我个人分析，键盘作为码农的生产工具，换机械键盘的原动力主要有
@@ -204,9 +204,9 @@ parse_header(File, KeepFirst) -&gt;
 是因为纠结于这些问题，忽略了你真正要完成的目的。而且这些问题本来就是没有答案的，
 今天看到那个说A好就玩玩A，明天看到哪个说B好就转向B，到头来都是一场空。所以不要纠
 结在这些形而上的东西，能候选的肯定都不会差，选中一个就可以开始你的精彩之旅。</p>
-<p>现实是人类总是很愚蠢的，我又开始“关心”哪种方式写erlang最方便。在浪费了一个礼拜的
+<p>现实是人类总是很愚蠢的，我又开始“关心”哪种方式写er&shy;lang最方便。在浪费了一个礼拜的
 “选择”后，我最终觉得<code>erlang</code>还是用已经成为<code>erlang</code>届既定标准的<code>emacs</code>来写比较好，
-毕竟排版最好看，再配合<code>evil</code>就更好了。至于erlIDE或者IDEA的erlang插件，想要花时间
+毕竟排版最好看，再配合<code>evil</code>就更好了。至于er&shy;lIDE或者IDEA的er&shy;lang插件，想要花时间
 再去学，还是把这个时间写更多的代码呢？:)</p>
 <p>但愿以后多点智慧。</p>
 <p>-EOF-</p>
@@ -223,18 +223,18 @@ parse_header(File, KeepFirst) -&gt;
     <header>
         <time datetime="2014-09-06">06.09.2014, 17:31</time>
         <h1>
-            <a href="/2014/remote-and-local-call-in-erlang/" rel="bookmark canonical">函数调用和热更新</a>
+            <a href="/2014/han-shu-diao-yong-he-re-geng-xin/" rel="bookmark canonical">函数调用和热更新</a>
         </h1>
     </header>
-    <p>erlang中函数调用分为两种：</p>
+    <p>er&shy;lang中函数调用分为两种：</p>
 <ol>
 <li>remote call/external function call: <code>m:f(e1, ..., eN)</code></li>
 <li>local call: <code>f(e1, ..., eN)</code></li>
 </ol>
-<p>remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护
-两个版本的代码:<code>current</code>和 <code>old</code>。老版本和新版本可以同时运行：remote call总是使用
+<p>remote call 和 local cal&shy;l的主要差别在热更新时。er&shy;lang运行时对&shy;mod&shy;ule可以维护
+两个版本的代码:<code>current</code>和 <code>old</code>。老版本和新版本可以同时运行：re&shy;mote call总是使用
 <code>current</code>版本，local call可能运行<code>old</code>版本。当有更新的版本代码加载时，运行<code>old</code>
-代码的进程会终止。可以通过调用remote call，使进程切换到 <code>current</code> 版本。</p>
+代码的进程会终止。可以通过调用re&shy;mote cal&shy;l，使进程切换到 <code>current</code> 版本。</p>
 <pre class="highlight"><code>-module(m).
 -export([loop/0]).
 
@@ -248,7 +248,7 @@ loop() -&gt;
     end.</code></pre>
 
 
-<p>这种差别也体现在spawn函数调用时，<code>spawn(M, F, A)</code> 使用<code>current</code>代码，而 <code>spawn(Fun)</code> 中 <code>Fun</code> 是local call，不能进行热更新。 </p>
+<p>这种差别也体现在s&shy;pawn函数调用时，<code>spawn(M, F, A)</code> 使用<code>current</code>代码，而 <code>spawn(Fun)</code> 中 <code>Fun</code> 是local cal&shy;l，不能进行热更新。 </p>
 <p>但是存在这样一个问题：当进行热更新时，怎么保证运行老版本代码的进程不死掉呢？</p>
 <h3>--- Ref ---</h3>
 <p>[1] <a href="http://erlang.org/doc/reference_manual/expressions.html#id78068">Function Calls</a></p>
@@ -272,16 +272,16 @@ loop() -&gt;
             <a href="/2014/brian-acton-and-erlang/" rel="bookmark canonical">brian acton and erlang</a>
         </h1>
     </header>
-    <p><a href="http://en.wikipedia.org/wiki/Brian_Acton">Brian Acton</a>在whatsapp被facebook收购后，除了瞬间变成一个亿万富翁外，也因其<a href="/2014/brian-acton-and-erlang/www.solidot.org/story?sid=38414">特殊的工作经历</a>，被大众追捧为励志对象。这其实有点滑稽，大家只看到他被twitter，facebook拒绝，而选择性忽略他斯坦福大学毕业，曾在apple，adobe，yahoo工作过，特别是yahoo离职后跟<a href="http://en.wikipedia.org/wiki/Jan_Koum">Jan Koum</a>跑南美去耍了一年，这完全是人生赢家呀。所以这事和“励志”没有半毛关系，顶多算从“小成功”走向“大成功”。</p>
-<p>但Brian Acton人生能有如此小高潮，与erlang还是有点关系的。Brian Acton 2009年才学erlang，到如今用erlang支持着whatsapp亿级用户量，erlang和Brian Action都让人惊叹。从erlang-question list上可以找到Brian Acton刚开始使用erlang时的踪迹，或许能有所启发。</p>
+    <p><a href="http://en.wikipedia.org/wiki/Brian_Acton">Brian Acton</a>在what&shy;sap&shy;p被&shy;face&shy;book收购后，除了瞬间变成一个亿万富翁外，也因其<a href="/2014/brian-acton-and-erlang/www.solidot.org/story?sid=38414">特殊的工作经历</a>，被大众追捧为励志对象。这其实有点滑稽，大家只看到他被twit&shy;ter，&shy;face&shy;book拒绝，而选择性忽略他斯坦福大学毕业，曾在ap&shy;ple，adobe，ya&shy;hoo工作过，特别是ya&shy;hoo离职后跟<a href="http://en.wikipedia.org/wiki/Jan_Koum">Jan Koum</a>跑南美去耍了一年，这完全是人生赢家呀。所以这事和“励志”没有半毛关系，顶多算从“小成功”走向“大成功”。</p>
+<p>但Brian Ac&shy;ton人生能有如此小高潮，与er&shy;lang还是有点关系的。Bri&shy;an Acton 2009年才学er&shy;lang，到如今用er&shy;lang支持着what&shy;sap&shy;p亿级用户量，er&shy;lang和Bri&shy;an Ac&shy;tion都让人惊叹。从er&shy;lang-question list上可以找到Bri&shy;an Ac&shy;ton刚开始使用er&shy;lang时的踪迹，或许能有所启发。</p>
 <h3>2010-Jan</h3>
 <ul>
-<li><a href="http://erlang.org/pipermail/erlang-questions/2010-January/049111.html">understanding the scaleability limits of erlang and mnesia</a></li>
+<li><a href="http://erlang.org/pipermail/erlang-questions/2010-January/049111.html">un&shy;der&shy;stand&shy;ing the scaleabil&shy;i&shy;ty limits of erlang and mnesia</a></li>
 </ul>
 <h3>2010-Feb</h3>
 <ul>
 <li>
-<p><a href="http://erlang.org/pipermail/erlang-questions/2010-February/049468.html">upgrading from R12 to R13 in a heterogeneous fashion</a></p>
+<p><a href="http://erlang.org/pipermail/erlang-questions/2010-February/049468.html">upgrading from R12 to R13 in a het&shy;ero&shy;ge&shy;neous fashion</a></p>
 </li>
 <li>
 <p><a href="http://erlang.org/pipermail/erlang-questions/2010-February/049824.html">Mnesia - 2Gb or 4Gb - which is it?</a></p>
@@ -297,7 +297,7 @@ loop() -&gt;
 <p><a href="http://erlang.org/pipermail/erlang-questions/2010-March/050040.html">Unicode question</a></p>
 </li>
 </ul>
-<p>基本unicode库问题 </p>
+<p>基本u&shy;ni&shy;code库问题 </p>
 <h3>2010-Apr</h3>
 <ul>
 <li>
@@ -333,34 +333,34 @@ loop() -&gt;
             <a href="/2014/3-months-in-erlang/" rel="bookmark canonical">3 months in erlang</a>
         </h1>
     </header>
-    <p>从看Joe老爷的书，写下第一行erlang至今，已有三个月的时间，算是刚入门。这三个月
-里，主要工作是针对定制的xmpp协议对ejabberd进行修改，工作量不是很大，但过程并不
+    <p>从看Joe老爷的书，写下第一行er&shy;lang至今，已有三个月的时间，算是刚入门。这三个月
+里，主要工作是针对定制的xmp&shy;p协议对e&shy;jab&shy;berd进行修改，工作量不是很大，但过程并不
 轻松，主要困难有三个：</p>
 <ul>
 <li>xmpp协议</li>
 </ul>
-<p>好在有个很好的xmpp中文站点，可以做到一知半解</p>
+<p>好在有个很好的xmp&shy;p中文站点，可以做到一知半解</p>
 <ul>
 <li>ejabberd</li>
 </ul>
-<p>作为erlang的明星项目，其设计思路和代码质量应该不会低</p>
+<p>作为er&shy;lang的明星项目，其设计思路和代码质量应该不会低</p>
 <ul>
 <li>erlang</li>
 </ul>
 <p>先来一句<code>hello, erlang</code></p>
-<p>说说erlang给我的感受吧。第一感觉是比java好写，不是黑java的意思，主要是我OOP的能
-力太弱。传说中erlang给人的障碍是它怪异的语法，这一点对我倒没有什么影响，甚至于
+<p>说说er&shy;lang给我的感受吧。第一感觉是比&shy;java好写，不是黑&shy;java的意思，主要是我OOP的能
+力太弱。传说中er&shy;lang给人的障碍是它怪异的语法，这一点对我倒没有什么影响，甚至于
 在看到老爷子解释<code>X = X + 1</code>如何不合常理时，还有点小激动呢。这说明两点，一是我数
 学学得不怎么样，没有强烈的数学思维， 二是我编程水平不怎么样，根本没有思考赋值语
-句的含义。但是也有不能适应的时候，比如现在还是对怎么用erlang写个优雅的DP算法不
-知所措。至于更高级的OTP框架，也是摸不着头脑。说到现在，应该完全暴露出我小学生水
+句的含义。但是也有不能适应的时候，比如现在还是对怎么用er&shy;lang写个优雅的D&shy;P算法不
+知所措。至于更高级的OT&shy;P框架，也是摸不着头脑。说到现在，应该完全暴露出我小学生水
 平了吧。</p>
-<p>虽然还没有感受到erlang高并发的威力，但我还是蛮喜欢它的。所以下一阶段目标或许应
+<p>虽然还没有感受到er&shy;lang高并发的威力，但我还是蛮喜欢它的。所以下一阶段目标或许应
 该更明确一点：</p>
 <ul>
 <li>erlang User Guide 听说通读几遍都是不犯法的</li>
 <li>OTP 实战joe老爷也是推荐的</li>
-<li>ejabberd不再看看，好意思跟人打招呼么？或许可以玩玩OTR</li>
+<li>ejab&shy;berd不再看看，好意思跟人打招呼么？或许可以玩玩OTR</li>
 <li>cowboy</li>
 <li>erts是C实现的</li>
 </ul>

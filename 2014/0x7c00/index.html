@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>7c00</title>
+  <title>0x7c00</title>
   <link media="all" href="/style.css" rel="stylesheet" />
   <link href="/favicon.ico" rel="shortcut icon" />
     <link href="/sitemap.xml" type="application/xml" rel="sitemap" title="Sitemap">
@@ -32,16 +32,16 @@
     <header>
         <time datetime="2014-10-18">18.10.2014, 18:41</time>
         <h1>
-            <a href="/2014/why-7c00/" rel="bookmark canonical">7c00</a>
+            <a href="/2014/0x7c00/" rel="bookmark canonical">0x7c00</a>
         </h1>
     </header>
     <p><code>BIOS</code>完成自检(<code>POST</code>,Power-on self-test)后，将MBR(Master Boot Record)加载到
-Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
-硬盘每个扇区有512字节，MBR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
+Ox7c00位置，然后跳转到该地址执行。M&shy;BR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，M&shy;BR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
 否是合法的MBR。</p>
 <p>那么现在问题来了：</p>
 <ul>
-<li>为什么<code>BIOS</code>会将MBR加载到0x7c00，而不是其他位置，比如说0x0？</li>
+<li>为什么<code>BIOS</code>会将M&shy;BR加载到0x7c00，而不是其他位置，比如说0x0？</li>
 <li>为什么选择<code>0xAA55</code>作为MBR标志？</li>
 </ul>
 <p>注意到</p>
@@ -50,15 +50,15 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 
 
 <p>可见0x7c00并不是随意选择的地址。</p>
-<p>其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：</p>
+<p>其实这跟第一台IBM PC和&shy;DOS有关。BIOS选择0x7c00主要有以下原因：</p>
 <ul>
-<li>预留最多的地址空间给DOS</li>
+<li>预留最多的地址空间给&shy;DOS</li>
 <li>DOS操作系统最小内存要求是32KB</li>
-<li>8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区</li>
+<li>8086/8088使用0x0 - 0x3F&shy;F作为中断向量表，紧接着BIOS数据区</li>
 <li>启动扇区总共为512字节，还需要额外空间作为栈或数据区</li>
 </ul>
-<p>参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
-节加载MBR是一个合理的决定。</p>
+<p>参考内存分布图，在低地址空间已被占用，内存至少32K&shy;B的情况下，在高地址腾出1024字
+节加载M&shy;BR是一个合理的决定。</p>
 <pre class="highlight"><code>+--------------------- 0x0
 | Interrupts vectors
 +--------------------- 0x400
@@ -74,7 +74,7 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 +--------------------- (...)</code></pre>
 
 
-<p>至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+<p>至于为什么使用0x&shy;AA55作为M&shy;BR标志，考虑到x86使用的是小尾序，0x&shy;AA55在内存中会记录
 成</p>
 <pre class="highlight"><code>01010101 10101010</code></pre>
 
@@ -93,7 +93,7 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 </article>
     
     
-        <a href="/2014/may-be-a-escript-bug//" class="page floatright">
+        <a href="/2014/escriptzhi-gui-mi//" class="page floatright">
         escript之诡秘 &raquo;
         </a>
     
