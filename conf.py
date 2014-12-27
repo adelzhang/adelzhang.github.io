@@ -20,8 +20,9 @@ VIEWS = {
     '/': {'filters': 'summarize', 'view': 'index',
           'pagination': '/page/:num/'},
 
-    #'/:year/:slug/': {'views': ['entry', 'draft']},
-    '/:year/:basename/': {'views': ['entry', 'draft']},
+    '/:year/:slug/': {'views': ['entry', 'draft']},
+    # basename extension gone
+    #'/:year/:basename/': {'views': ['entry', 'draft']},
 
     '/tag/:name/': {'filters': 'summarize', 'view':'tag',
                     'pagination': '/tag/:name/:num/'},
@@ -59,5 +60,6 @@ VIEWS = {
 
 THEME = 'theme'
 ENGINE = 'acrylamid.templates.jinja2.Environment'
-ENTRY_PERMALINK = '/:year/:basename/'
+# basename extension gone
+#ENTRY_PERMALINK = '/:year/:basename/'
 DATE_FORMAT = '%Y-%m-%d %H:%M'
