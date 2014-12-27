@@ -1,6 +1,7 @@
 ---
 title: 0x7c00
 date: 2014-10-18 18:41
+permalink: /2014/why-0x7c00/
 ---
 
 `BIOS`完成自检(`POST`,Power-on self-test)后，将MBR(Master Boot Record)加载到

@@ -2,17 +2,20 @@
 title: escript之诡秘 
 date: 2014-10-02 23:21
 tags: [erlang]
+permalink: /2014/may-be-a-escript-bug/
 ---
 
 escript方便用户将erlang当作script来用([[1]](#[1]), [[2]](#[2]))。一个最简单的
 escript可以是这样的：
 
+    :::erlang
     #! /usr/bin/env escript
     main(_Args) ->
         io:format("hello world~n").
 
 但是如果你是像下面这样写的话，事情就没有那么顺利了:
 
+    :::erlang
     #! /usr/bin/env escript
     main(_Args) -> io:format("hello world~n").
 

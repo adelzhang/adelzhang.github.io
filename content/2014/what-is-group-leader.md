@@ -2,6 +2,7 @@
 title: group leader二三事 
 date: 2014-09-20 20:31
 tags: [erlang]
+permalink: /2014/what-is-group-leader/
 ---
 
 ## I. group leader在哪

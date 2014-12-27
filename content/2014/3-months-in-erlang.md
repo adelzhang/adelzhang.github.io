@@ -1,6 +1,7 @@
 ---
 title: 3 months in erlang
 date: 2014-03-28 00:27
+permalink: /2014/3-months-in-erlang/
 ---
 
 从看Joe老爷的书，写下第一行erlang至今，已有三个月的时间，算是刚入门。这三个月

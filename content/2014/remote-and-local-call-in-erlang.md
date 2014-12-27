@@ -2,6 +2,7 @@
 title: 函数调用和热更新 
 date: 2014-09-06 17:31
 tags: [erlang]
+permalink: /2014/remote-and-local-call-in-erlang/
 ---
 
 erlang中函数调用分为两种：
