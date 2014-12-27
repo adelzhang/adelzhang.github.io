@@ -1,25 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://adelzhang.github.io/2014/0x7c00/</loc>
+    <loc>http://adelzhang.github.io/</loc>
     <lastmod>2014-12-27</lastmod>
-    <changefreq>never</changefreq>
-    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://adelzhang.github.io/2014/group-leaderer-san-shi/</loc>
+    <loc>http://adelzhang.github.io/tag/erlang/</loc>
     <lastmod>2014-12-27</lastmod>
-    <changefreq>never</changefreq>
-    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://adelzhang.github.io/2014/escriptzhi-gui-mi/</loc>
+    <loc>http://adelzhang.github.io/2014/may-be-a-escript-bug/</loc>
     <lastmod>2014-12-27</lastmod>
     <changefreq>never</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://adelzhang.github.io/2014/3-months-in-erlang/</loc>
+    <lastmod>2014-12-27</lastmod>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://adelzhang.github.io/2014/what-is-group-leader/</loc>
     <lastmod>2014-12-27</lastmod>
     <changefreq>never</changefreq>
     <priority>1.0</priority>
@@ -36,13 +40,7 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://adelzhang.github.io/2014/han-shu-diao-yong-he-re-geng-xin/</loc>
-    <lastmod>2014-12-27</lastmod>
-    <changefreq>never</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://adelzhang.github.io/2014/gong-ju-yu-sheng-chan-li/</loc>
+    <loc>http://adelzhang.github.io/2014/why-0x7c00/</loc>
     <lastmod>2014-12-27</lastmod>
     <changefreq>never</changefreq>
     <priority>1.0</priority>
@@ -53,9 +51,10 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://adelzhang.github.io/tag/erlang/</loc>
+    <loc>http://adelzhang.github.io/2014/remote-and-local-call-in-erlang/</loc>
     <lastmod>2014-12-27</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>http://adelzhang.github.io/articles/</loc>
@@ -63,8 +62,9 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://adelzhang.github.io/</loc>
+    <loc>http://adelzhang.github.io/2014/the-myths-of-tools/</loc>
     <lastmod>2014-12-27</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>never</changefreq>
+    <priority>1.0</priority>
   </url>
 </urlset>

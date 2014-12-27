@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh">
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <author>
         <name>adelzhang</name>
         <uri>http://adelzhang.github.io/</uri>
@@ -12,7 +12,7 @@
     <icon>http://adelzhang.github.io/favicon.ico</icon>
     <logo>http://adelzhang.github.io/feed-logo.png</logo>
     <updated>2014-10-18T10:41:00Z</updated>
-    <generator uri="https://github.com/posativ/acrylamid/" version="0.7.8">acrylamid</generator>
+    <generator uri="https://github.com/posativ/acrylamid/" version="0.7.10">acrylamid</generator>
         <entry>
         <title>0x7c00</title>
         <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/why-0x7c00/" />
@@ -34,8 +34,9 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 &lt;li&gt;为什么选择&lt;code&gt;0xAA55&lt;/code&gt;作为MBR标志？&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;注意到&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;0x7c00 = 0x8000 - 0x400 
-       = 32KB - 1024B&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;可见0x7c00并不是随意选择的地址。&lt;/p&gt;
@@ -48,7 +49,7 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 &lt;/ul&gt;
 &lt;p&gt;参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
 节加载MBR是一个合理的决定。&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;+--------------------- 0x0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;+--------------------- 0x0
 | Interrupts vectors
 +--------------------- 0x400
 | BIOS data area
@@ -60,12 +61,14 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
 | Boot data/stack
 +--------------------- 0x7FFF
 | (not used)
-+--------------------- (...)&lt;/code&gt;&lt;/pre&gt;
++--------------------- (...)
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
 成&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;01010101 10101010&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;01010101 10101010
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;看着这么整齐可爱的模样，只能说是出于偏爱的原因。&lt;/p&gt;
@@ -88,14 +91,16 @@ Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0
         </author>
         <content type="html">&lt;p&gt;escript方便用户将erlang当作script来用(&lt;a href=&#34;http://adelzhang.github.io/2014/may-be-a-escript-bug/#[1]&#34;&gt;[1]&lt;/a&gt;, &lt;a href=&#34;http://adelzhang.github.io/2014/may-be-a-escript-bug/#[2]&#34;&gt;[2]&lt;/a&gt;)。一个最简单的
 escript可以是这样的：&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;linenums&#34;&gt;#! /usr/bin/env escript
-main(_Args) -&amp;gt;
-    io:format(&amp;quot;hello world~n&amp;quot;).&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;err&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;usr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;env&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;escript&lt;/span&gt;
+&lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(_&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;Args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nn&#34;&gt;io&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;hello world&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;~n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;但是如果你是像下面这样写的话，事情就没有那么顺利了:&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code class=&#34;linenums&#34;&gt;#! /usr/bin/env escript
-main(_Args) -&amp;gt; io:format(&amp;quot;hello world~n&amp;quot;).&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;err&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;usr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;env&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;escript&lt;/span&gt;
+&lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(_&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;Args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;io&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;hello world&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;~n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;会得到 &lt;code&gt;Premature end of file reached&lt;/code&gt; 的错误。&lt;/p&gt;
@@ -106,40 +111,41 @@ main(_Args) -&amp;gt; io:format(&amp;quot;hello world~n&amp;quot;).&lt;/code&gt;
 &lt;li&gt;第三行可以是传递给emulator的选项，以&lt;code&gt;%%!&lt;/code&gt;开头&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;下面通过escript源代码，看看具体是怎么处理的。&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;%% Skip header and make a heuristic guess about the script type
-parse_header(File, KeepFirst) -&amp;gt;
-    LineNo = 1,
-    ...
-    Line1 = get_line(Fd),
-    case classify_line(Line1) of
-        shebang -&amp;gt;
-            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
-                 #sections{shebang = Line1});
-        archive -&amp;gt;
-            {HeaderSz0, LineNo, Fd,
-                #sections{type = archive}};
-        beam -&amp;gt;
-            {HeaderSz0, LineNo, Fd,
-                #sections{type = beam}};
-        _ -&amp;gt;
-            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
-                 #sections{})
-    end.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;c&#34;&gt;%% Skip header and make a heuristic guess about the script type&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;parse_header&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;File&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;KeepFirst&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;LineNo&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;c&#34;&gt;...&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;Line1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;classify_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Line1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;of&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;shebang&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;find_first_body_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HeaderSz0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LineNo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;KeepFirst&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                 #&lt;span class=&#34;n&#34;&gt;sections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;shebang&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Line1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;archive&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HeaderSz0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LineNo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                #&lt;span class=&#34;n&#34;&gt;sections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;archive&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}};&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;beam&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HeaderSz0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LineNo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                #&lt;span class=&#34;n&#34;&gt;sections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;beam&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}};&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;find_first_body_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HeaderSz0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LineNo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;KeepFirst&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                 #&lt;span class=&#34;n&#34;&gt;sections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
 
 
-classify_line(Line) -&amp;gt;
-    case Line of
-        &amp;quot;#!&amp;quot; ++ _ -&amp;gt; shebang;
-        &amp;quot;PK&amp;quot; ++ _ -&amp;gt; archive;
-        &amp;quot;FOR1&amp;quot; ++ _ -&amp;gt; beam;
-        &amp;quot;%%!&amp;quot; ++ _ -&amp;gt; emu_args;
-        &amp;quot;%&amp;quot; ++ _ -&amp;gt; comment;
-        _ -&amp;gt; undefined
-    end.&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;n&#34;&gt;classify_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Line&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;of&lt;/span&gt;
+        &amp;quot;#!&amp;quot; &lt;span class=&#34;o&#34;&gt;++&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;shebang&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+        &amp;quot;&lt;span class=&#34;n&#34;&gt;PK&lt;/span&gt;&amp;quot; &lt;span class=&#34;o&#34;&gt;++&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;archive&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+        &amp;quot;&lt;span class=&#34;n&#34;&gt;FOR1&lt;/span&gt;&amp;quot; &lt;span class=&#34;o&#34;&gt;++&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;beam&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+        &amp;quot;&lt;span class=&#34;c&#34;&gt;%%!&amp;quot; ++ _ -&amp;gt; emu_args;&lt;/span&gt;
+        &amp;quot;&lt;span class=&#34;c&#34;&gt;%&amp;quot; ++ _ -&amp;gt; comment;&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;undefined&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;code&gt;parse_header/2&lt;/code&gt;对&lt;code&gt;Line1&lt;/code&gt;进行分析，当识别出是archive或者是beam时，可进行下一步处理；否则需要继续寻找头部结束的位置。&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst, Sections) -&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst, Sections) -&amp;gt;
     {ok, HeaderSz1} = file:position(Fd, cur),
     %% Look for special comment on second line
     Line2 = get_line(Fd),
@@ -184,7 +190,8 @@ classify_line(Line) -&amp;gt;
                 {HeaderSz1, LineNo + 1, Fd,
                     Sections#sections{type = guess_type(Line2)}}
             end
-    end.&lt;/code&gt;&lt;/pre&gt;
+    end.
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;问题就出在&lt;code&gt;find_first_body_line/5&lt;/code&gt;直接读取Line3，当文件只有两行时会被当成文件
@@ -211,35 +218,37 @@ classify_line(Line) -&amp;gt;
         <content type="html">&lt;h4&gt;I. group leader在哪&lt;/h4&gt;
 &lt;p&gt;有很多地方可以发现group leader的踪迹，比如在&lt;code&gt;application&lt;/code&gt;模块中。通常我们调用&lt;code&gt;application:start(Application)&lt;/code&gt;来启动应用，&lt;code&gt;application&lt;/code&gt;
 是对&lt;code&gt;application_controller&lt;/code&gt;的封装：&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;start(Application, RestartType) -&amp;gt;
-    case load(Application) of
-        ok -&amp;gt;
-            Name = get_appl_name(Application),
-            application_controller:start_application(Name, RestartType);
-        {error, {already_loaded, Name}} -&amp;gt;
-            application_controller:start_application(Name, RestartType);
-        Error -&amp;gt;
-            Error
-    end.&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;nt&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;RestartType&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;load&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;of&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;Name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;get_appl_name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;),&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;application_controller&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;:start_application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;Name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;RestartType&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;already_loaded&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;application_controller&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;:start_application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;Name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;RestartType&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;Error&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;Error&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;code&gt;application_controller&lt;/code&gt;是一个仿造的OTP进程（为什么要仿造，而不是直接使用gen_server或者proc_lib呢？）:&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;start(KernelApp) -&amp;gt;
-    Init = self(),
-    AC = spawn_link(fun() -&amp;gt; init(Init, KernelApp) end),
-    ...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;x&#34;&gt;start(KernelApp) -&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    Init = self(),&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    AC = spawn_link(fun() -&amp;gt; init(Init, KernelApp) end),&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    ...&lt;/span&gt;
 
-init(Init, KernelApp) -&amp;gt;
-    register(?AC, self()),
-    process_flag(trap_exit, true),
-    put(&#39;$ancestors&#39;, [Init]), % OTP-5811, for gen_server compatibility
-    put(&#39;$initial_call&#39;, {application_controller, start, 1}),
-    ...&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;x&#34;&gt;init(Init, KernelApp) -&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    register(?AC, self()),&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    process_flag(trap_exit, true),&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    put(&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;ancestors&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;#39;, [Init]), % OTP-5811, for gen_server compatibility&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    put(&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;initial_call&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;#39;, &lt;/span&gt;&lt;span class=&#34;err&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;application_controller, start, 1}),&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;code&gt;application_controller&lt;/code&gt;确保Application的所有依赖应用都已启动，否则返回&lt;code&gt;{error, {not_started, App}}&lt;/code&gt;，其中App是没有启动的依赖应用。在
 一个新建进程（为什么要在新进程中？），创建属于Application的application master进程:&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;handle_call({start_application, AppName, RestartType}, From, S) -&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;handle_call({start_application, AppName, RestartType}, From, S) -&amp;gt;
     ...
     case catch check_start_cond(AppName, RestartType, Started, Running) of
         {ok, Appl} -&amp;gt;
@@ -264,69 +273,73 @@ init_starter(_From, Appl, S, Type) -&amp;gt;
 start_appl(Appl, S, Type) -&amp;gt;
     ...
     application_master:start_link(ApplData, Type),
-    ...&lt;/code&gt;&lt;/pre&gt;
+    ...
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;group leader马上就要出现了。application master是Application的第一个进程，它会调用Application behaviour回调函数&lt;code&gt;Module:start/2&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;start_link(ApplData, Type) -&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;start_link(ApplData, Type) -&amp;gt;
     Parent = whereis(application_controller),
     proc_lib:start_link(application_master, init,
-            [Parent, self(), ApplData, Type]).&lt;/code&gt;&lt;/pre&gt;
+            [Parent, self(), ApplData, Type]).
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;在&lt;code&gt;init&lt;/code&gt;函数前的一段注释中，描述了AM(application master)是如何启动应用的:&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;%%%-----------------------------------------------------------------
-%%% The logical and physical process structrure is as follows:
-%%%
-%%%         logical                physical
-%%%
-%%%         --------               --------
-%%%         |AM(GL)|               |AM(GL)|               
-%%%         --------               -------- 
-%%%            |                       |
-%%%         --------               --------
-%%%         |Appl P|               |   X  |
-%%%         --------               --------
-%%%                                    |
-%%%                                --------
-%%%                                |Appl P|
-%%%                                --------
-%%%
-%%% Where AM(GL) == Application Master (Group Leader)
-%%%       Appl P == The application specific root process (child to AM)
-%%%       X      == A special &#39;invisible&#39; process
-%%% The reason for not using the logical structrure is that
-%%% the application start function is synchronous, and 
-%%% that the AM is GL.  This means that if AM executed the start
-%%% function, and this function uses spawn_request/1
-%%% or io, deadlock would occur.  Therefore, this function is
-%%% executed by the process X.  Also, AM needs three loops;
-%%% init_loop (waiting for the start function to return)
-%%% main_loop
-%%% terminate_loop (waiting for the process to die)
-%%% In each of these loops, io and other requests are handled.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;c&#34;&gt;%%%-----------------------------------------------------------------&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% The logical and physical process structrure is as follows:&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         logical                physical&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         --------               --------&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         |AM(GL)|               |AM(GL)|               &lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         --------               -------- &lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%            |                       |&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         --------               --------&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         |Appl P|               |   X  |&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%         --------               --------&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%                                    |&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%                                --------&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%                                |Appl P|&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%                                --------&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% Where AM(GL) == Application Master (Group Leader)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%       Appl P == The application specific root process (child to AM)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%%       X      == A special &amp;#39;invisible&amp;#39; process&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% The reason for not using the logical structrure is that&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% the application start function is synchronous, and &lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% that the AM is GL.  This means that if AM executed the start&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% function, and this function uses spawn_request/1&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% or io, deadlock would occur.  Therefore, this function is&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% executed by the process X.  Also, AM needs three loops;&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% init_loop (waiting for the start function to return)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% main_loop&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% terminate_loop (waiting for the process to die)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;%%% In each of these loops, io and other requests are handled.&lt;/span&gt;
 
-init(Parent, Starter, ApplData, Type) -&amp;gt;
-    link(Parent),
-    process_flag(trap_exit, true),
-    OldGleader = group_leader(),
-    group_leader(self(), self()),
-    ...&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;n&#34;&gt;init&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Parent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Starter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ApplData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;link&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Parent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;process_flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;trap_exit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;OldGleader&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()),&lt;/span&gt;
+    &lt;span class=&#34;c&#34;&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;group leader终于出现了，那么疑问就变成：什么是group leader？为什么AM不采用辅助进程的话会造成deadlock？&lt;/p&gt;
 &lt;h4&gt;II. 什么是group leader&lt;/h4&gt;
 &lt;p&gt;在erlang doc中，有关group leader是这样描述的：&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;Every process is a member of some process group and all groups have a group leader. 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;Every process is a member of some process group and all groups have a group leader. 
 All IO from the group is channeled to the group leader. 
 When a new process is spawned, it gets the same group leader as the spawning process. 
-Initially, at system start-up, init is both its own group leader and the group leader of all processes.&lt;/code&gt;&lt;/pre&gt;
+Initially, at system start-up, init is both its own group leader and the group leader of all processes.
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;code&gt;group_leader()&lt;/code&gt;可以返回当前进程的group leader，&lt;code&gt;group_leader(GL, Pid)&lt;/code&gt;修改Pid进程的GL。&lt;/p&gt;
 &lt;p&gt;以io:format/0为例，看看group leader怎么发挥作用。io:format会向GL发送消息，并且等待GL返回。这也解释了AM不采用
 辅助进程的话可能造成deadlock的原因。&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;format(Format, Args) -&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;format(Format, Args) -&amp;gt;
     format(default_output(), Format, Args).
 
 default_output() -&amp;gt;
@@ -355,19 +368,20 @@ wait_io_mon_reply(From, Mref) -&amp;gt;
         {io_reply, From, Reply} -&amp;gt;
             erlang:demonitor(Mref, [flush]),
             Reply;
-        {&#39;EXIT&#39;, From, _What} -&amp;gt;
+        {&amp;#39;EXIT&amp;#39;, From, _What} -&amp;gt;
             receive
-                {&#39;DOWN&#39;, Mref, _, _, _} -&amp;gt; true
+                {&amp;#39;DOWN&amp;#39;, Mref, _, _, _} -&amp;gt; true
             after 0 -&amp;gt; true
             end,
             {error,terminated};
-        {&#39;DOWN&#39;, Mref, _, _, _} -&amp;gt;
+        {&amp;#39;DOWN&amp;#39;, Mref, _, _, _} -&amp;gt;
             receive
-                {&#39;EXIT&#39;, From, _What} -&amp;gt; true
+                {&amp;#39;EXIT&amp;#39;, From, _What} -&amp;gt; true
             after 0 -&amp;gt; true
             end,
             {error,terminated}
-    end.&lt;/code&gt;&lt;/pre&gt;
+    end.
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;III. 何时需要group leader&lt;/h4&gt;
@@ -375,57 +389,59 @@ wait_io_mon_reply(From, Mref) -&amp;gt;
 需要修改进程的group leader。rpc模块就利用了这种技术，使得在远程节点运行的代码，结果输出
 在本地节点。本地node调用rpc时，group_leader()是参数之一。远程node spawn一个新进程来执行
 rpc，并将该进程GL修改为本地node提高的group_leader()，从而实现io的拦截。&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;%% code snippet of rpc.erl
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;c&#34;&gt;%% code snippet of rpc.erl&lt;/span&gt;
 
-call(N,M,F,A) when node() =:= N -&amp;gt;  %% Optimize local call
-    local_call(M, F, A);
-call(N,M,F,A) -&amp;gt;
-    do_call(N, {call,M,F,A,group_leader()}, infinity).
+&lt;span class=&#34;n&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=:=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;N&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;%% Optimize local call&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;local_call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;do_call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()},&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;infinity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;
 
-do_call(Node, Request, infinity) -&amp;gt;
-    rpc_check(catch gen_server:call({?NAME,Node}, Request, infinity));
+&lt;span class=&#34;n&#34;&gt;do_call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;infinity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;rpc_check&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;catch&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gen_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;?&lt;span class=&#34;n&#34;&gt;NAME&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;infinity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
 
-handle_call({call, Mod, Fun, Args, Gleader}, To, S) -&amp;gt;
-    handle_call_call(Mod, Fun, Args, Gleader, To, S);
+&lt;span class=&#34;n&#34;&gt;handle_call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Mod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Fun&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;To&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;handle_call_call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Mod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Fun&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;To&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 
-handle_call_call(Mod, Fun, Args, Gleader, To, S) -&amp;gt;
-    RpcServer = self(),
-    %% Spawn not to block the rpc server.
-    {Caller,_} =
-    erlang:spawn_monitor(
-      fun () -&amp;gt;
-          set_group_leader(Gleader),
-          Reply = 
-              %% in case some sucker rex&#39;es 
-              %% something that throws
-              case catch apply(Mod, Fun, Args) of
-              {&#39;EXIT&#39;, _} = Exit -&amp;gt;
-                  {badrpc, Exit};
-              Result -&amp;gt;
-                  Result
-              end,
-          RpcServer ! {self(), {reply, Reply}}
-      end),
-    {noreply, gb_trees:insert(Caller, To, S)}.
+&lt;span class=&#34;n&#34;&gt;handle_call_call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Mod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Fun&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;To&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;RpcServer&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt;
+    &lt;span class=&#34;c&#34;&gt;%% Spawn not to block the rpc server.&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Caller&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;erlang&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;spawn_monitor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+          &lt;span class=&#34;n&#34;&gt;set_group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+          &lt;span class=&#34;n&#34;&gt;Reply&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; 
+              &lt;span class=&#34;c&#34;&gt;%% in case some sucker rex&amp;#39;es &lt;/span&gt;
+              &lt;span class=&#34;c&#34;&gt;%% something that throws&lt;/span&gt;
+              &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;catch&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;apply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Mod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Fun&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;of&lt;/span&gt;
+              &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;EXIT&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Exit&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+                  &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;badrpc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Exit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+              &lt;span class=&#34;n&#34;&gt;Result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;
+                  &lt;span class=&#34;n&#34;&gt;Result&lt;/span&gt;
+              &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+          &lt;span class=&#34;n&#34;&gt;RpcServer&lt;/span&gt; ! &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Reply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;noreply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gb_trees&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;insert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Caller&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;To&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)}.&lt;/span&gt;
 
-set_group_leader(Gleader) when is_pid(Gleader) -&amp;gt; 
-    group_leader(Gleader, self());
-set_group_leader(user) -&amp;gt; 
-    %% For example, hidden C nodes doesn&#39;t want any I/O.
-    Gleader = case whereis(user) of
-          Pid when is_pid(Pid) -&amp;gt; Pid;
-          undefined -&amp;gt; proxy_user()
-          end,
-    group_leader(Gleader, self()).&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;n&#34;&gt;set_group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;is_pid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; 
+    &lt;span class=&#34;n&#34;&gt;group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;set_group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; 
+    &lt;span class=&#34;c&#34;&gt;%% For example, hidden C nodes doesn&amp;#39;t want any I/O.&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;whereis&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;of&lt;/span&gt;
+          &lt;span class=&#34;n&#34;&gt;Pid&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;is_pid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Pid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Pid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+          &lt;span class=&#34;n&#34;&gt;undefined&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;proxy_user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+          &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;group_leader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Gleader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;在&lt;code&gt;set_group_leader/1&lt;/code&gt;中，还能看到&lt;code&gt;user&lt;/code&gt;的身影。官方文档中关于&lt;code&gt;user&lt;/code&gt;的介绍：&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;MODULE SUMMARY
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;MODULE SUMMARY
 Standard I/O Server
 
 DESCRIPTION
 user is a server which responds to all the messages defined in the I/O interface. 
-The code in user.erl can be used as a model for building alternative I/O servers.&lt;/code&gt;&lt;/pre&gt;
+The code in user.erl can be used as a model for building alternative I/O servers.
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;所以，user是Erlang/OTP中默认的标准i/o进程，不知道io_request怎么处理时，往user扔应该不会错吧？ :)&lt;/p&gt;
@@ -493,17 +509,18 @@ The code in user.erl can be used as a model for building alternative I/O servers
 两个版本的代码:&lt;code&gt;current&lt;/code&gt;和 &lt;code&gt;old&lt;/code&gt;。老版本和新版本可以同时运行：remote call总是使用
 &lt;code&gt;current&lt;/code&gt;版本，local call可能运行&lt;code&gt;old&lt;/code&gt;版本。当有更新的版本代码加载时，运行&lt;code&gt;old&lt;/code&gt;
 代码的进程会终止。可以通过调用remote call，使进程切换到 &lt;code&gt;current&lt;/code&gt; 版本。&lt;/p&gt;
-&lt;pre class=&#34;highlight&#34;&gt;&lt;code&gt;-module(m).
--export([loop/0]).
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;nt&#34;&gt;-module&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;-export&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;loop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;).&lt;/span&gt;
 
-loop() -&amp;gt;
-    receive
-        code_switch -&amp;gt;
-            m:loop();
-        Msg -&amp;gt;
-            do_something,
-            loop()
-    end.&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;nt&#34;&gt;loop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;receive&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;code_switch&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;:loop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;Msg&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;do_something&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;loop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;这种差别也体现在spawn函数调用时，&lt;code&gt;spawn(M, F, A)&lt;/code&gt; 使用&lt;code&gt;current&lt;/code&gt;代码，而 &lt;code&gt;spawn(Fun)&lt;/code&gt; 中 &lt;code&gt;Fun&lt;/code&gt; 是local call，不能进行热更新。 &lt;/p&gt;

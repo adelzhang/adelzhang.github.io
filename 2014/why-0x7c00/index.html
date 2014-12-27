@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <title>0x7c00</title>
   <link media="all" href="/style.css" rel="stylesheet" />
+  <link media="all" href="/emacs.css" rel="stylesheet" />
   <link href="/favicon.ico" rel="shortcut icon" />
     <link href="/sitemap.xml" type="application/xml" rel="sitemap" title="Sitemap">
   <link href="/" rel="home start" />
@@ -32,7 +33,7 @@
     <header>
         <time datetime="2014-10-18">18.10.2014, 18:41</time>
         <h1>
-            <a href="/2014/0x7c00/" rel="bookmark canonical">0x7c00</a>
+            <a href="/2014/why-0x7c00/" rel="bookmark canonical">0x7c00</a>
         </h1>
     </header>
     <p><code>BIOS</code>完成自检(<code>POST</code>,Power-on self-test)后，将MBR(Master Boot Record)加载到
@@ -45,8 +46,9 @@ Ox7c00位置，然后跳转到该地址执行。M&shy;BR即硬盘的第一个扇
 <li>为什么选择<code>0xAA55</code>作为MBR标志？</li>
 </ul>
 <p>注意到</p>
-<pre class="highlight"><code>0x7c00 = 0x8000 - 0x400 
-       = 32KB - 1024B</code></pre>
+<div class="highlight"><pre>0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B
+</pre></div>
 
 
 <p>可见0x7c00并不是随意选择的地址。</p>
@@ -59,7 +61,7 @@ Ox7c00位置，然后跳转到该地址执行。M&shy;BR即硬盘的第一个扇
 </ul>
 <p>参考内存分布图，在低地址空间已被占用，内存至少32K&shy;B的情况下，在高地址腾出1024字
 节加载M&shy;BR是一个合理的决定。</p>
-<pre class="highlight"><code>+--------------------- 0x0
+<div class="highlight"><pre>+--------------------- 0x0
 | Interrupts vectors
 +--------------------- 0x400
 | BIOS data area
@@ -71,12 +73,14 @@ Ox7c00位置，然后跳转到该地址执行。M&shy;BR即硬盘的第一个扇
 | Boot data/stack
 +--------------------- 0x7FFF
 | (not used)
-+--------------------- (...)</code></pre>
++--------------------- (...)
+</pre></div>
 
 
 <p>至于为什么使用0x&shy;AA55作为M&shy;BR标志，考虑到x86使用的是小尾序，0x&shy;AA55在内存中会记录
 成</p>
-<pre class="highlight"><code>01010101 10101010</code></pre>
+<div class="highlight"><pre>01010101 10101010
+</pre></div>
 
 
 <p>看着这么整齐可爱的模样，只能说是出于偏爱的原因。</p>
@@ -93,7 +97,7 @@ Ox7c00位置，然后跳转到该地址执行。M&shy;BR即硬盘的第一个扇
 </article>
     
     
-        <a href="/2014/escriptzhi-gui-mi//" class="page floatright">
+        <a href="/2014/may-be-a-escript-bug//" class="page floatright">
         escript之诡秘 &raquo;
         </a>
     
