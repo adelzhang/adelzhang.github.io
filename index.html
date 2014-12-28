@@ -29,6 +29,68 @@
     
         <article>
     <header>
+        <time datetime="2014-12-28">28.12.2014, 13:17</time>
+        <h1>
+            <a href="/2014/support-multiple-icons-in-android/" rel="bookmark canonical">动态修改Android应用图标</a>
+        </h1>
+    </header>
+    <p><a href="/2014/support-multiple-icons-in-android/www.chainfire.eu">Chainfire</a>(SuperSU作者)发现了一种可以<a href="/2014/support-multiple-icons-in-android/www.chainfire.eu/articles/133/_TUT_Supporting_multiple_icons_in_your_app">动态修改图标</a>的方法，挺有意思的，记录一下。</p>
+<p>简单地说，该方法是使用 <code>&lt;activity-alias&gt;</code> 和 <code>PackageManager.setComponentEnabledSetting()</code> 来做到的。</p>
+<h3>Android Manifest</h3>
+<p>注意<code>&lt;activity&gt;</code>标签中没有设置<code>launcher category</code>，另外，<code>&lt;activity-alias&gt;</code>中只有一个设置为<code>android:enabled=true</code>。</p>
+<div class="highlight"><pre><span class="nt">&lt;activity</span>
+    <span class="na">android:name=</span><span class="s">&quot;.MainActivity&quot;</span>
+    <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.acton.MAIN&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+
+<span class="nt">&lt;activity-alias</span>
+    <span class="na">android:enabled=</span><span class="s">&quot;true&quot;</span>
+    <span class="na">android:name=</span><span class="s">&quot;.MainActivity-default&quot;</span>
+    <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span>
+    <span class="na">android:icon=</span><span class="s">&quot;@drawable/ic_launcher_default&quot;</span>
+    <span class="na">android:targetActivity=</span><span class="s">&quot;.MainActivity&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity-alias&gt;</span>
+
+<span class="nt">&lt;activity-alias</span>
+    <span class="na">android:enabled=</span><span class="s">&quot;false&quot;</span>
+    <span class="na">android:name=</span><span class="s">&quot;.MainActivity-icon1&quot;</span>
+    <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span>
+    <span class="na">android:icon=</span><span class="s">&quot;@drawable/ic_launcher_1&quot;</span>
+    <span class="na">android:targetActivity=</span><span class="s">&quot;.MainActivity&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.MAIN&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.LAUNCHER&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity-alias&gt;</span>
+</pre></div>
+
+
+<h3>Java Code</h3>
+<div class="highlight"><pre><span class="kd">private</span> <span class="kt">void</span> <span class="nf">setIcon</span><span class="o">(</span><span class="kt">int</span> <span class="n">iconId</span><span class="o">){</span>
+    <span class="n">Context</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">getActivity</span><span class="o">();</span>
+    <span class="n">PackageManager</span> <span class="n">pm</span> <span class="o">=</span> </pre><span>&#8230;<a href="/2014/support-multiple-icons-in-android/" class="continue">continue</a>.</span></div>
+    <footer>
+        
+        
+            <p>tagged as
+                <a href="/tag/android/" rel="tag">android</a>
+                
+            </p>
+        
+    </footer>
+    <div class="comments"></div>
+</article>
+    
+        <article>
+    <header>
         <time datetime="2014-10-18">18.10.2014, 18:41</time>
         <h1>
             <a href="/2014/why-0x7c00/" rel="bookmark canonical">0x7c00</a>

@@ -11,8 +11,98 @@
     <link rel="self" type="application/atom+xml" href="http://adelzhang.github.io/atom/" />
     <icon>http://adelzhang.github.io/favicon.ico</icon>
     <logo>http://adelzhang.github.io/feed-logo.png</logo>
-    <updated>2014-10-18T10:41:00Z</updated>
+    <updated>2014-12-28T05:17:00Z</updated>
     <generator uri="https://github.com/posativ/acrylamid/" version="0.7.10">acrylamid</generator>
+        <entry>
+        <title>动态修改Android应用图标</title>
+        <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/support-multiple-icons-in-android/" />
+        <id>tag:adelzhang.github.io,2014-12-28:/2014/support-multiple-icons-in-android</id>
+        <updated>2014-12-28T05:17:00Z</updated>
+        <category term="android" />
+        
+        <author>
+            <name>adelzhang</name>
+            <uri>http://adelzhang.github.io/</uri>
+            <email>triadelphous#gmail.com</email>
+        </author>
+        <content type="html">&lt;p&gt;&lt;a href=&#34;http://adelzhang.github.io/2014/support-multiple-icons-in-android/www.chainfire.eu&#34;&gt;Chainfire&lt;/a&gt;(SuperSU作者)发现了一种可以&lt;a href=&#34;http://adelzhang.github.io/2014/support-multiple-icons-in-android/www.chainfire.eu/articles/133/_TUT_Supporting_multiple_icons_in_your_app&#34;&gt;动态修改图标&lt;/a&gt;的方法，挺有意思的，记录一下。&lt;/p&gt;
+&lt;p&gt;简单地说，该方法是使用 &lt;code&gt;&amp;lt;activity-alias&amp;gt;&lt;/code&gt; 和 &lt;code&gt;PackageManager.setComponentEnabledSetting()&lt;/code&gt; 来做到的。&lt;/p&gt;
+&lt;h4&gt;Android Manifest&lt;/h4&gt;
+&lt;p&gt;注意&lt;code&gt;&amp;lt;activity&amp;gt;&lt;/code&gt;标签中没有设置&lt;code&gt;launcher category&lt;/code&gt;，另外，&lt;code&gt;&amp;lt;activity-alias&amp;gt;&lt;/code&gt;中只有一个设置为&lt;code&gt;android:enabled=true&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;activity&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;.MainActivity&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:label=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;@string/app_name&amp;quot;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;action&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;android.intent.acton.MAIN&amp;quot;&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/activity&amp;gt;&lt;/span&gt;
+
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;activity-alias&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:enabled=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;true&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;.MainActivity-default&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:label=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;@string/app_name&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:icon=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;@drawable/ic_launcher_default&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:targetActivity=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;.MainActivity&amp;quot;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;action&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;android.intent.action.MAIN&amp;quot;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;category&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;android.intent.category.LAUNCHER&amp;quot;&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/activity-alias&amp;gt;&lt;/span&gt;
+
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;activity-alias&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:enabled=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;false&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;.MainActivity-icon1&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:label=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;@string/app_name&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:icon=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;@drawable/ic_launcher_1&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;na&#34;&gt;android:targetActivity=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;.MainActivity&amp;quot;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;intent-filter&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;action&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;android.intent.action.MAIN&amp;quot;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;category&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;android:name=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;android.intent.category.LAUNCHER&amp;quot;&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/intent-filter&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/activity-alias&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Java Code&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;setIcon&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;iconId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;){&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;Context&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;getActivity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pm&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getPackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ActivityManager&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;am&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getSystemService&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Activity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;ACTIVITY_SERVICE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// enable/disable activity-aliases component&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;pm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setComponentEnabledSetting&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ComponentName&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;com.example.MainActivity-default&amp;quot;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;),&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;iconId&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ICON_DEFAULT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;COMPONENT_ENABLED_STATE_ENABLED&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;COMPONENT_ENABLED_STATE_DISABLED&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;DONT_KILL_APP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;n&#34;&gt;pm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setComponentEnabledSetting&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ComponentName&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;com.example.MainActivity-icon1&amp;quot;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;),&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;iconId&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ICON_1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;COMPONENT_ENABLED_STATE_ENABLED&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;COMPONENT_ENABLED_STATE_DISABLED&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;PackageManager&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;DONT_KILL_APP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// Find launcher and kill it&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;Intent&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Intent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Intent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;ACTION_MAIN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addCategory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Intent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;CATEGORY_HOME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;addCategory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Intent&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;CATEGORY_DEFAULT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ResolveInfo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;resolves&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;queryIntentActivities&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ResovleInfo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;res&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;resolves&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;){&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;activityInfo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;){&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;am&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;killBackgroundProcesses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;acitivityInfo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;packageName&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+
+    &lt;span class=&#34;c1&#34;&gt;// Change ActionBar icon&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;getActivity&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getActionBar&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setIcon&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;iconId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content>
+    </entry>
+    
         <entry>
         <title>0x7c00</title>
         <link rel="alternate" type="text/html" href="http://adelzhang.github.io/2014/why-0x7c00/" />
