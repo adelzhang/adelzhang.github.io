@@ -19,14 +19,9 @@ FILTERS = ['markdown+codehilite(css_class=highlight)', 'hyphenate', 'h1']
 VIEWS = {
     '/': {'filters': 'summarize', 'view': 'index',
           'pagination': '/page/:num/'},
-
     '/:year/:slug/': {'views': ['entry', 'draft']},
-    # basename extension gone
-    #'/:year/:basename/': {'views': ['entry', 'draft']},
-
     '/tag/:name/': {'filters': 'summarize', 'view':'tag',
                     'pagination': '/tag/:name/:num/'},
-
     '/atom/': {'filters': ['h2', 'nohyphenate'], 'view': 'atom'},
     '/rss/': {'filters': ['h2', 'nohyphenate'], 'view': 'rss'},
 
@@ -60,6 +55,4 @@ VIEWS = {
 
 THEME = 'theme'
 ENGINE = 'acrylamid.templates.jinja2.Environment'
-# basename extension gone
-#ENTRY_PERMALINK = '/:year/:basename/'
 DATE_FORMAT = '%Y-%m-%d %H:%M'
