@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>/home/adelzhang</title>
+    <link>http://adelzhang.github.io/</link>
+    <description>Recent content on /home/adelzhang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Dec 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://adelzhang.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>动态修改Android应用图标</title>
+      <link>http://adelzhang.github.io/2014/support-multiple-icons-in-android/</link>
+      <pubDate>Sun, 28 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/support-multiple-icons-in-android/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;www.chainfire.eu&#34;&gt;Chainfire&lt;/a&gt;(SuperSU作者)发现了一种可以&lt;a href=&#34;www.chainfire.eu/articles/133/_TUT_Supporting_multiple_icons_in_your_app&#34;&gt;动态修改图标&lt;/a&gt;的方法，挺有意思的，记录一下。&lt;/p&gt;
+
+&lt;p&gt;简单地说，该方法是使用 &lt;code&gt;&amp;lt;activity-alias&amp;gt;&lt;/code&gt; 和 &lt;code&gt;PackageManager.setComponentEnabledSetting()&lt;/code&gt; 来做到的。&lt;/p&gt;
+
+&lt;h2 id=&#34;android-manifest:d7093ae11ccf6d8429caf7fe714c5bb4&#34;&gt;Android Manifest&lt;/h2&gt;
+
+&lt;p&gt;注意&lt;code&gt;&amp;lt;activity&amp;gt;&lt;/code&gt;标签中没有设置&lt;code&gt;launcher category&lt;/code&gt;，另外，&lt;code&gt;&amp;lt;activity-alias&amp;gt;&lt;/code&gt;中只有一个设置为&lt;code&gt;android:enabled=true&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:::xml linenums=&amp;quot;True&amp;quot;
+&amp;lt;activity
+    android:name=&amp;quot;.MainActivity&amp;quot;
+    android:label=&amp;quot;@string/app_name&amp;quot;&amp;gt;
+
+&amp;lt;intent-filter&amp;gt;
+    &amp;lt;action android:name=&amp;quot;android.intent.acton.MAIN&amp;quot; /&amp;gt;
+&amp;lt;/intent-filter&amp;gt;
+&amp;lt;/activity&amp;gt;
+
+&amp;lt;activity-alias
+    android:enabled=&amp;quot;true&amp;quot;
+    android:name=&amp;quot;.MainActivity-default&amp;quot;
+    android:label=&amp;quot;@string/app_name&amp;quot;
+    android:icon=&amp;quot;@drawable/ic_launcher_default&amp;quot;
+    android:targetActivity=&amp;quot;.MainActivity&amp;quot;&amp;gt;
+&amp;lt;intent-filter&amp;gt;
+    &amp;lt;action android:name=&amp;quot;android.intent.action.MAIN&amp;quot;/&amp;gt;
+    &amp;lt;category android:name=&amp;quot;android.intent.category.LAUNCHER&amp;quot; /&amp;gt;
+&amp;lt;/intent-filter&amp;gt;
+&amp;lt;/activity-alias&amp;gt;
+
+&amp;lt;activity-alias
+    android:enabled=&amp;quot;false&amp;quot;
+    android:name=&amp;quot;.MainActivity-icon1&amp;quot;
+    android:label=&amp;quot;@string/app_name&amp;quot;
+    android:icon=&amp;quot;@drawable/ic_launcher_1&amp;quot;
+    android:targetActivity=&amp;quot;.MainActivity&amp;quot;&amp;gt;
+&amp;lt;intent-filter&amp;gt;
+    &amp;lt;action android:name=&amp;quot;android.intent.action.MAIN&amp;quot;/&amp;gt;
+    &amp;lt;category android:name=&amp;quot;android.intent.category.LAUNCHER&amp;quot; /&amp;gt;
+&amp;lt;/intent-filter&amp;gt;
+&amp;lt;/activity-alias&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;java-code:d7093ae11ccf6d8429caf7fe714c5bb4&#34;&gt;Java Code&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;:::java
+private void setIcon(int iconId){
+    Context ctx = getActivity();
+    PackageManager pm = ctx.getPackageManager();
+    ActivityManager am = ctx.getSystemService(Activity.ACTIVITY_SERVICE); 
+
+    // enable/disable activity-aliases component
+    pm.setComponentEnabledSetting(
+        new ComponentName(ctx, &amp;quot;com.example.MainActivity-default&amp;quot;),
+        iconId == ICON_DEFAULT?
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+        PackageManager.DONT_KILL_APP);
+
+    pm.setComponentEnabledSetting(
+        new ComponentName(ctx, &amp;quot;com.example.MainActivity-icon1&amp;quot;),
+        iconId == ICON_1?
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+        PackageManager.DONT_KILL_APP);
+
+    // Find launcher and kill it
+    Intent i = new Intent(Intent.ACTION_MAIN);
+    i.addCategory(Intent.CATEGORY_HOME);
+    i.addCategory(Intent.CATEGORY_DEFAULT);
+    List&amp;lt;ResolveInfo&amp;gt; resolves = pm.queryIntentActivities(i,0);
+    for(ResovleInfo res : resolves){
+        if(res.activityInfo != null){
+            am.killBackgroundProcesses(res.acitivityInfo.packageName);
+        }
+    } 
+
+
+    // Change ActionBar icon
+    getActivity().getActionBar().setIcon(iconId);
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>0x7c00</title>
+      <link>http://adelzhang.github.io/2014/0x7c00/</link>
+      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/0x7c00/</guid>
+      <description>
+
+&lt;p&gt;&lt;code&gt;BIOS&lt;/code&gt;完成自检(&lt;code&gt;POST&lt;/code&gt;,Power-on self-test)后，将MBR(Master Boot Record)加载到
+Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，MBR必须以&lt;code&gt;0xAA55&lt;/code&gt;为结尾，&lt;code&gt;BIOS&lt;/code&gt;检测最后两个字节来判断是
+否是合法的MBR。&lt;/p&gt;
+
+&lt;p&gt;那么现在问题来了：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为什么&lt;code&gt;BIOS&lt;/code&gt;会将MBR加载到0x7c00，而不是其他位置，比如说0x0？&lt;/li&gt;
+&lt;li&gt;为什么选择&lt;code&gt;0xAA55&lt;/code&gt;作为MBR标志？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意到&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可见0x7c00并不是随意选择的地址。&lt;/p&gt;
+
+&lt;p&gt;其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;预留最多的地址空间给DOS&lt;/li&gt;
+&lt;li&gt;DOS操作系统最小内存要求是32KB&lt;/li&gt;
+&lt;li&gt;8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区&lt;/li&gt;
+&lt;li&gt;启动扇区总共为512字节，还需要额外空间作为栈或数据区&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
+节加载MBR是一个合理的决定。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+--------------------- 0x0
+| Interrupts vectors
++--------------------- 0x400
+| BIOS data area
++--------------------- 0x5??
+| OS load area
++--------------------- 0x7C00
+| Boot sector
++--------------------- 0x7E00
+| Boot data/stack
++--------------------- 0x7FFF
+| (not used)
++--------------------- (...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;01010101 10101010
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看着这么整齐可爱的模样，只能说是出于偏爱的原因。&lt;/p&gt;
+
+&lt;h1 id=&#34;ref:be5dce5714f6eaf8290a184233aa5c91&#34;&gt;Ref&lt;/h1&gt;
+
+&lt;p&gt;[1] &lt;a href=&#34;http://www.glamenv-septzen.net/en/view/6&#34;&gt;why bios loads MBR into 0x7c00 in x86?&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;-EOF-&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>escript之诡秘</title>
+      <link>http://adelzhang.github.io/2014/may-be-a-escript-bug/</link>
+      <pubDate>Thu, 02 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/may-be-a-escript-bug/</guid>
+      <description>
+
+&lt;p&gt;escript方便用户将erlang当作script来用(&lt;a href=&#34;#[1]&#34;&gt;[1]&lt;/a&gt;, &lt;a href=&#34;#[2]&#34;&gt;[2]&lt;/a&gt;)。一个最简单的
+escript可以是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:::erlang
+#! /usr/bin/env escript
+main(_Args) -&amp;gt;
+    io:format(&amp;quot;hello world~n&amp;quot;).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是如果你是像下面这样写的话，事情就没有那么顺利了:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:::erlang
+#! /usr/bin/env escript
+main(_Args) -&amp;gt; io:format(&amp;quot;hello world~n&amp;quot;).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会得到 &lt;code&gt;Premature end of file reached&lt;/code&gt; 的错误。&lt;/p&gt;
+
+&lt;p&gt;这与escript对文件前三行有特别的处理有关:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;第一行通常是shebang，以&lt;code&gt;%!&lt;/code&gt;开头&lt;/li&gt;
+&lt;li&gt;第二行可以是emacs的一些设置，以&lt;code&gt;%%&lt;/code&gt;开头&lt;/li&gt;
+&lt;li&gt;第三行可以是传递给emulator的选项，以&lt;code&gt;%%!&lt;/code&gt;开头&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面通过escript源代码，看看具体是怎么处理的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%% Skip header and make a heuristic guess about the script type
+parse_header(File, KeepFirst) -&amp;gt;
+    LineNo = 1,
+    ...
+    Line1 = get_line(Fd),
+    case classify_line(Line1) of
+        shebang -&amp;gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{shebang = Line1});
+        archive -&amp;gt;
+            {HeaderSz0, LineNo, Fd,
+                #sections{type = archive}};
+        beam -&amp;gt;
+            {HeaderSz0, LineNo, Fd,
+                #sections{type = beam}};
+        _ -&amp;gt;
+            find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst,
+                 #sections{})
+    end.
+
+
+classify_line(Line) -&amp;gt;
+    case Line of
+        &amp;quot;#!&amp;quot; ++ _ -&amp;gt; shebang;
+        &amp;quot;PK&amp;quot; ++ _ -&amp;gt; archive;
+        &amp;quot;FOR1&amp;quot; ++ _ -&amp;gt; beam;
+        &amp;quot;%%!&amp;quot; ++ _ -&amp;gt; emu_args;
+        &amp;quot;%&amp;quot; ++ _ -&amp;gt; comment;
+        _ -&amp;gt; undefined
+    end.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;parse_header/2&lt;/code&gt;对&lt;code&gt;Line1&lt;/code&gt;进行分析，当识别出是archive或者是beam时，可进行下一步处理；否则需要继续寻找头部结束的位置。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;find_first_body_line(Fd, HeaderSz0, LineNo, KeepFirst, Sections) -&amp;gt;
+    {ok, HeaderSz1} = file:position(Fd, cur),
+    %% Look for special comment on second line
+    Line2 = get_line(Fd),
+    {ok, HeaderSz2} = file:position(Fd, cur),
+    case classify_line(Line2) of
+        emu_args -&amp;gt;
+            %% Skip special comment on second line
+            Line3 = get_line(Fd),
+            {HeaderSz2, LineNo + 2, Fd,
+                Sections#sections{type = guess_type(Line3),
+                comment = undefined,
+                emu_args = Line2}};
+        Line2Type -&amp;gt;
+            %% Look for special comment on third line
+            Line3 = get_line(Fd),
+            {ok, HeaderSz3} = file:position(Fd, cur),
+            Line3Type = classify_line(Line3),
+            if
+            Line3Type =:= emu_args -&amp;gt;
+                %% Skip special comment on third line
+                Line4 = get_line(Fd),
+                {HeaderSz3, LineNo + 3, Fd,
+                    Sections#sections{type = guess_type(Line4),
+                    comment = Line2,
+                    emu_args = Line3}};
+            Sections#sections.shebang =:= undefined,
+            KeepFirst =:= true -&amp;gt;
+                %% No shebang. Use the entire file
+                {HeaderSz0, LineNo, Fd,
+                    Sections#sections{type = guess_type(Line2)}};
+            Sections#sections.shebang =:= undefined -&amp;gt;
+                %% No shebang. Skip the first line
+                {HeaderSz1, LineNo, Fd,
+                    Sections#sections{type = guess_type(Line2)}};
+            Line2Type =:= comment -&amp;gt;
+                %% Skip shebang on first line and comment on second
+                {HeaderSz2, LineNo + 2, Fd,
+                    Sections#sections{type = guess_type(Line3),
+                    comment = Line2}};
+            true -&amp;gt;
+                %% Just skip shebang on first line
+                {HeaderSz1, LineNo + 1, Fd,
+                    Sections#sections{type = guess_type(Line2)}}
+            end
+    end.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题就出在&lt;code&gt;find_first_body_line/5&lt;/code&gt;直接读取Line3，当文件只有两行时会被当成文件
+异常结束。&lt;/p&gt;
+
+&lt;p&gt;或许可以写个PullRequest？ :)&lt;/p&gt;
+
+&lt;h1 id=&#34;ref:676713867d2cd7a2ffc8ef9f4a1f7b78&#34;&gt;Ref&lt;/h1&gt;
+
+&lt;p&gt;&lt;span id=&#34;[1]&#34;&gt;[1]&lt;/span&gt; &lt;a href=&#34;http://www.erlang.org/doc/man/escript.html&#34;&gt;escript&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span id=&#34;[2]&#34;&gt;[2]&lt;/span&gt; &lt;a href=&#34;http://blog.yufeng.info/archives/153&#34;&gt;escript的高级特性&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;-EOF-&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>group leader二三事</title>
+      <link>http://adelzhang.github.io/2014/what-is-group-leader/</link>
+      <pubDate>Sat, 20 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/what-is-group-leader/</guid>
+      <description>
+
+&lt;h2 id=&#34;i-group-leader在哪:d311c28748ddfd3d0c775365a93eced2&#34;&gt;I. group leader在哪&lt;/h2&gt;
+
+&lt;p&gt;有很多地方可以发现group leader的踪迹，比如在&lt;code&gt;application&lt;/code&gt;模块中。通常我们调用&lt;code&gt;application:start(Application)&lt;/code&gt;来启动应用，&lt;code&gt;application&lt;/code&gt;
+是对&lt;code&gt;application_controller&lt;/code&gt;的封装：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;start(Application, RestartType) -&amp;gt;
+    case load(Application) of
+        ok -&amp;gt;
+            Name = get_appl_name(Application),
+            application_controller:start_application(Name, RestartType);
+        {error, {already_loaded, Name}} -&amp;gt;
+            application_controller:start_application(Name, RestartType);
+        Error -&amp;gt;
+            Error
+    end.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;application_controller&lt;/code&gt;是一个仿造的OTP进程（为什么要仿造，而不是直接使用gen_server或者proc_lib呢？）:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;start(KernelApp) -&amp;gt;
+    Init = self(),
+    AC = spawn_link(fun() -&amp;gt; init(Init, KernelApp) end),
+    ...
+
+init(Init, KernelApp) -&amp;gt;
+    register(?AC, self()),
+    process_flag(trap_exit, true),
+    put(&#39;$ancestors&#39;, [Init]), % OTP-5811, for gen_server compatibility
+    put(&#39;$initial_call&#39;, {application_controller, start, 1}),
+    ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;application_controller&lt;/code&gt;确保Application的所有依赖应用都已启动，否则返回&lt;code&gt;{error, {not_started, App}}&lt;/code&gt;，其中App是没有启动的依赖应用。在
+一个新建进程（为什么要在新进程中？），创建属于Application的application master进程:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;handle_call({start_application, AppName, RestartType}, From, S) -&amp;gt;
+    ...
+    case catch check_start_cond(AppName, RestartType, Started, Running) of
+        {ok, Appl} -&amp;gt;
+             spawn_starter(From, Appl, S, normal),
+             {noreply, S#state{starting = [{AppName, RestartType, normal, From} |
+                                            Starting],
+                               start_req = [{AppName, From} | Start_req]}};
+        {error, _R} = Error -&amp;gt;
+            {reply, Error, S}
+    end,
+    ...
+
+spawn_starter(From, Appl, S, Type) -&amp;gt;
+    spawn_link(?MODULE, init_starter, [From, Appl, S, Type]).
+
+init_starter(_From, Appl, S, Type) -&amp;gt;
+    process_flag(trap_exit, true),
+    AppName = Appl#appl.name,
+    gen_server:cast(?AC, {application_started, AppName, 
+              catch start_appl(Appl, S, Type)}).
+
+start_appl(Appl, S, Type) -&amp;gt;
+    ...
+    application_master:start_link(ApplData, Type),
+    ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;group leader马上就要出现了。application master是Application的第一个进程，它会调用Application behaviour回调函数&lt;code&gt;Module:start/2&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;start_link(ApplData, Type) -&amp;gt;
+    Parent = whereis(application_controller),
+    proc_lib:start_link(application_master, init,
+            [Parent, self(), ApplData, Type]). 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在&lt;code&gt;init&lt;/code&gt;函数前的一段注释中，描述了AM(application master)是如何启动应用的:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%%%-----------------------------------------------------------------
+%%% The logical and physical process structrure is as follows:
+%%%
+%%%         logical                physical
+%%%
+%%%         --------               --------
+%%%         |AM(GL)|               |AM(GL)|               
+%%%         --------               -------- 
+%%%            |                       |
+%%%         --------               --------
+%%%         |Appl P|               |   X  |
+%%%         --------               --------
+%%%                                    |
+%%%                                --------
+%%%                                |Appl P|
+%%%                                --------
+%%%
+%%% Where AM(GL) == Application Master (Group Leader)
+%%%       Appl P == The application specific root process (child to AM)
+%%%       X      == A special &#39;invisible&#39; process
+%%% The reason for not using the logical structrure is that
+%%% the application start function is synchronous, and 
+%%% that the AM is GL.  This means that if AM executed the start
+%%% function, and this function uses spawn_request/1
+%%% or io, deadlock would occur.  Therefore, this function is
+%%% executed by the process X.  Also, AM needs three loops;
+%%% init_loop (waiting for the start function to return)
+%%% main_loop
+%%% terminate_loop (waiting for the process to die)
+%%% In each of these loops, io and other requests are handled.
+
+init(Parent, Starter, ApplData, Type) -&amp;gt;
+    link(Parent),
+    process_flag(trap_exit, true),
+    OldGleader = group_leader(),
+    group_leader(self(), self()),
+    ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;group leader终于出现了，那么疑问就变成：什么是group leader？为什么AM不采用辅助进程的话会造成deadlock？&lt;/p&gt;
+
+&lt;h2 id=&#34;ii-什么是group-leader:d311c28748ddfd3d0c775365a93eced2&#34;&gt;II. 什么是group leader&lt;/h2&gt;
+
+&lt;p&gt;在erlang doc中，有关group leader是这样描述的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Every process is a member of some process group and all groups have a group leader. 
+All IO from the group is channeled to the group leader. 
+When a new process is spawned, it gets the same group leader as the spawning process. 
+Initially, at system start-up, init is both its own group leader and the group leader of all processes.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;group_leader()&lt;/code&gt;可以返回当前进程的group leader，&lt;code&gt;group_leader(GL, Pid)&lt;/code&gt;修改Pid进程的GL。&lt;/p&gt;
+
+&lt;p&gt;以io:format/0为例，看看group leader怎么发挥作用。io:format会向GL发送消息，并且等待GL返回。这也解释了AM不采用
+辅助进程的话可能造成deadlock的原因。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;format(Format, Args) -&amp;gt;
+    format(default_output(), Format, Args).
+
+default_output() -&amp;gt;
+    group_leader().
+
+format(Io, Format, Args) -&amp;gt;
+    o_request(Io, {format,Format,Args}, format).
+
+o_request(Io, Request, Func) -&amp;gt;
+    ...
+    request(Io, Request)
+    ...
+
+request(Pid, Request) when is_pid(Pid) -&amp;gt;
+    execute_request(Pid, io_request(Pid, Request)),
+    ...
+
+execute_request(Pid, {Convert,Converted}) -&amp;gt;
+    Pid ! {io_request,self(),Pid,Converted},
+    ...
+    wait_io_mon_reply(Pid, Mref),
+    ...
+
+wait_io_mon_reply(From, Mref) -&amp;gt;
+    receive
+        {io_reply, From, Reply} -&amp;gt;
+            erlang:demonitor(Mref, [flush]),
+            Reply;
+        {&#39;EXIT&#39;, From, _What} -&amp;gt;
+            receive
+                {&#39;DOWN&#39;, Mref, _, _, _} -&amp;gt; true
+            after 0 -&amp;gt; true
+            end,
+            {error,terminated};
+        {&#39;DOWN&#39;, Mref, _, _, _} -&amp;gt;
+            receive
+                {&#39;EXIT&#39;, From, _What} -&amp;gt; true
+            after 0 -&amp;gt; true
+            end,
+            {error,terminated}
+    end.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;iii-何时需要group-leader:d311c28748ddfd3d0c775365a93eced2&#34;&gt;III. 何时需要group leader&lt;/h2&gt;
+
+&lt;p&gt;一般情况下，我们并不用关心group leader。但在某些场景下，可能需要对io进行拦截，这时候就
+需要修改进程的group leader。rpc模块就利用了这种技术，使得在远程节点运行的代码，结果输出
+在本地节点。本地node调用rpc时，group_leader()是参数之一。远程node spawn一个新进程来执行
+rpc，并将该进程GL修改为本地node提高的group_leader()，从而实现io的拦截。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%% code snippet of rpc.erl
+
+call(N,M,F,A) when node() =:= N -&amp;gt;  %% Optimize local call
+    local_call(M, F, A);
+call(N,M,F,A) -&amp;gt;
+    do_call(N, {call,M,F,A,group_leader()}, infinity).
+
+do_call(Node, Request, infinity) -&amp;gt;
+    rpc_check(catch gen_server:call({?NAME,Node}, Request, infinity));
+
+handle_call({call, Mod, Fun, Args, Gleader}, To, S) -&amp;gt;
+    handle_call_call(Mod, Fun, Args, Gleader, To, S);
+
+handle_call_call(Mod, Fun, Args, Gleader, To, S) -&amp;gt;
+    RpcServer = self(),
+    %% Spawn not to block the rpc server.
+    {Caller,_} =
+    erlang:spawn_monitor(
+      fun () -&amp;gt;
+          set_group_leader(Gleader),
+          Reply = 
+              %% in case some sucker rex&#39;es 
+              %% something that throws
+              case catch apply(Mod, Fun, Args) of
+              {&#39;EXIT&#39;, _} = Exit -&amp;gt;
+                  {badrpc, Exit};
+              Result -&amp;gt;
+                  Result
+              end,
+          RpcServer ! {self(), {reply, Reply}}
+      end),
+    {noreply, gb_trees:insert(Caller, To, S)}.
+
+set_group_leader(Gleader) when is_pid(Gleader) -&amp;gt; 
+    group_leader(Gleader, self());
+set_group_leader(user) -&amp;gt; 
+    %% For example, hidden C nodes doesn&#39;t want any I/O.
+    Gleader = case whereis(user) of
+          Pid when is_pid(Pid) -&amp;gt; Pid;
+          undefined -&amp;gt; proxy_user()
+          end,
+    group_leader(Gleader, self()).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在&lt;code&gt;set_group_leader/1&lt;/code&gt;中，还能看到&lt;code&gt;user&lt;/code&gt;的身影。官方文档中关于&lt;code&gt;user&lt;/code&gt;的介绍：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;MODULE SUMMARY
+Standard I/O Server
+
+DESCRIPTION
+user is a server which responds to all the messages defined in the I/O interface. 
+The code in user.erl can be used as a model for building alternative I/O servers.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以，user是Erlang/OTP中默认的标准i/o进程，不知道io_request怎么处理时，往user扔应该不会错吧？ :)&lt;/p&gt;
+
+&lt;p&gt;-EOF-&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>工具与生产力</title>
+      <link>http://adelzhang.github.io/2014/the-myths-of-tools/</link>
+      <pubDate>Sun, 14 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/the-myths-of-tools/</guid>
+      <description>&lt;p&gt;最近周围好多人都换成机械键盘，甚至也有HHKB。我试着把玩了几下，手感较薄膜键盘还是
+有些提升的，加上更适合码农的键位，看着是挺诱人的。要是以前的我，心中必定一地鸡
+毛，然后一通调研比较各种牌子价位，最后因为囊中羞涩而作罢，时间也浪费掉了。而现在
+我学的淡定了许多。从我个人分析，键盘作为码农的生产工具，换机械键盘的原动力主要有
+两个：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;键盘好看。87键位小巧可爱，与众不同。&lt;/li&gt;
+&lt;li&gt;号称适合码农。良好的手感，&lt;code&gt;Caps&lt;/code&gt; 和 &lt;code&gt;Ctrl&lt;/code&gt; 可以互换。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;原因1无可厚非，等同于看到美女时的视觉享受，无法抗拒呀，:)。原因2有个深层的假设，
+高手们都在用机械键盘，或许当我也换成使用这种键盘时，我的效率就会自然而然得到提高，
+不假时日也能进入高手的行列。很显然，想通过换键盘来提高rank的行为相当自欺欺人，而
+这恰恰是换机械键盘时的最大幻想。在试玩的过程中由于键位的不适应，刚开始使用时效率
+反而会比我以前惯用的键盘低很多。可见，键盘无所谓贵贱，“唯手熟耳”。至于美感的问题，
+这主要还是取决于你的钱包厚度。&lt;/p&gt;
+
+&lt;p&gt;其实困扰低级码农的工具问题不止键盘，各种工具的选择都会对低级码农造成不小的麻烦：
+哪种语言更高级？编辑器和&lt;code&gt;IDE&lt;/code&gt;的哪个好？&lt;code&gt;vim&lt;/code&gt;和&lt;code&gt;emacs&lt;/code&gt;哪个更好？&lt;code&gt;IDE&lt;/code&gt;哪个更好用？
+对于处于并将很长期处于低级码农的我来说，这些问题浪费了我很多时间和精力，更可怕的
+是因为纠结于这些问题，忽略了你真正要完成的目的。而且这些问题本来就是没有答案的，
+今天看到那个说A好就玩玩A，明天看到哪个说B好就转向B，到头来都是一场空。所以不要纠
+结在这些形而上的东西，能候选的肯定都不会差，选中一个就可以开始你的精彩之旅。&lt;/p&gt;
+
+&lt;p&gt;现实是人类总是很愚蠢的，我又开始“关心”哪种方式写erlang最方便。在浪费了一个礼拜的
+“选择”后，我最终觉得&lt;code&gt;erlang&lt;/code&gt;还是用已经成为&lt;code&gt;erlang&lt;/code&gt;届既定标准的&lt;code&gt;emacs&lt;/code&gt;来写比较好，
+毕竟排版最好看，再配合&lt;code&gt;evil&lt;/code&gt;就更好了。至于erlIDE或者IDEA的erlang插件，想要花时间
+再去学，还是把这个时间写更多的代码呢？:)&lt;/p&gt;
+
+&lt;p&gt;但愿以后多点智慧。&lt;/p&gt;
+
+&lt;p&gt;-EOF-&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>函数调用和热更新</title>
+      <link>http://adelzhang.github.io/2014/remote-and-local-call-in-erlang/</link>
+      <pubDate>Sat, 06 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/remote-and-local-call-in-erlang/</guid>
+      <description>
+
+&lt;p&gt;erlang中函数调用分为两种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;remote call/external function call: &lt;code&gt;m:f(e1, ..., eN)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;local call: &lt;code&gt;f(e1, ..., eN)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护
+两个版本的代码:&lt;code&gt;current&lt;/code&gt;和 &lt;code&gt;old&lt;/code&gt;。老版本和新版本可以同时运行：remote call总是使用
+&lt;code&gt;current&lt;/code&gt;版本，local call可能运行&lt;code&gt;old&lt;/code&gt;版本。当有更新的版本代码加载时，运行&lt;code&gt;old&lt;/code&gt;
+代码的进程会终止。可以通过调用remote call，使进程切换到 &lt;code&gt;current&lt;/code&gt; 版本。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-module(m).
+-export([loop/0]).
+
+loop() -&amp;gt;
+    receive
+        code_switch -&amp;gt;
+            m:loop();
+        Msg -&amp;gt;
+            do_something,
+            loop()
+    end.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这种差别也体现在spawn函数调用时，&lt;code&gt;spawn(M, F, A)&lt;/code&gt; 使用&lt;code&gt;current&lt;/code&gt;代码，而 &lt;code&gt;spawn(Fun)&lt;/code&gt; 中 &lt;code&gt;Fun&lt;/code&gt; 是local call，不能进行热更新。&lt;/p&gt;
+
+&lt;p&gt;但是存在这样一个问题：当进行热更新时，怎么保证运行老版本代码的进程不死掉呢？&lt;/p&gt;
+
+&lt;h2 id=&#34;ref:da1ddf33640aa161cade4fb67a90cc90&#34;&gt;&amp;mdash; Ref &amp;mdash;&lt;/h2&gt;
+
+&lt;p&gt;[1] &lt;a href=&#34;http://erlang.org/doc/reference_manual/expressions.html#id78068&#34;&gt;Function Calls&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[2] &lt;a href=&#34;http://erlang.org/doc/reference_manual/code_loading.html#id86334&#34;&gt;Code Loading&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Brian Acton and Erlang</title>
+      <link>http://adelzhang.github.io/2014/brian-acton-and-erlang/</link>
+      <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://adelzhang.github.io/2014/brian-acton-and-erlang/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Brian_Acton&#34;&gt;Brian Acton&lt;/a&gt;在whatsapp被facebook收购后，除了瞬间变成一个亿万富翁外，也因其&lt;a href=&#34;www.solidot.org/story?sid=38414&#34;&gt;特殊的工作经历&lt;/a&gt;，被大众追捧为励志对象。这其实有点滑稽，大家只看到他被twitter，facebook拒绝，而选择性忽略他斯坦福大学毕业，曾在apple，adobe，yahoo工作过，特别是yahoo离职后跟&lt;a href=&#34;http://en.wikipedia.org/wiki/Jan_Koum&#34;&gt;Jan Koum&lt;/a&gt;跑南美去耍了一年，这完全是人生赢家呀。所以这事和“励志”没有半毛关系，顶多算从“小成功”走向“大成功”。&lt;/p&gt;
+
+&lt;p&gt;但Brian Acton人生能有如此小高潮，与erlang还是有点关系的。Brian Acton 2009年才学erlang，到如今用erlang支持着whatsapp亿级用户量，erlang和Brian Action都让人惊叹。从erlang-question list上可以找到Brian Acton刚开始使用erlang时的踪迹，或许能有所启发。&lt;/p&gt;
+
+&lt;h2 id=&#34;2010-jan:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Jan&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-January/049111.html&#34;&gt;understanding the scaleability limits of erlang and mnesia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;2010-feb:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Feb&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-February/049468.html&#34;&gt;upgrading from R12 to R13 in a heterogeneous fashion&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-February/049824.html&#34;&gt;Mnesia - 2Gb or 4Gb - which is it?&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;呵呵，&lt;strong&gt;没人回答&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;2010-mar:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Mar&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-March/049883.html&#34;&gt;How to deal with Mnesia core files&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-March/050040.html&#34;&gt;Unicode question&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;基本unicode库问题&lt;/p&gt;
+
+&lt;h2 id=&#34;2010-apr:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Apr&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-April/050475.html&#34;&gt;Mnesia deadlock with large volume of dirty operations?&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-April/050476.html&#34;&gt;how to clear a hot mnesia table&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;呵呵，&lt;strong&gt;没人回答&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-April/050554.html&#34;&gt;more try/catch confusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;基本语法问题&lt;/p&gt;
+
+&lt;h2 id=&#34;2010-sep:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Sep&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-September/053468.html&#34;&gt;corrupt external term&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;没人回答&lt;/strong&gt;，呵呵。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

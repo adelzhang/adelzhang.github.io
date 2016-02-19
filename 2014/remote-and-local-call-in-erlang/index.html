@@ -1,0 +1,138 @@
+    <!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="adelzhang">
+		<meta name="description" content="adelzhang&#39;s blog">
+		<meta name="generator" content="Hugo 0.15" />
+		<title>函数调用和热更新 &middot; /home/adelzhang</title>
+		<link rel="shortcut icon" href="http://adelzhang.github.ioimages/favicon.ico">
+		<link rel="stylesheet" href="http://adelzhang.github.iocss/style.css">
+		<link rel="stylesheet" href="http://adelzhang.github.iocss/highlight.css">
+		<link rel="stylesheet" href="http://adelzhang.github.iocss/monosocialiconsfont.css">
+		
+		<link href="http://adelzhang.github.io/index.xml" rel="alternate" type="application/rss+xml" title="/home/adelzhang" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='http://adelzhang.github.io'> <span class="arrow">←</span>Home</a>
+	
+
+	
+	<a class="cta" href="http://adelzhang.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>函数调用和热更新</h1>
+                    <h2 class="headline">September 6, 2014</h2>
+                </header>
+                <section id="post-body">
+                    
+
+<p>erlang中函数调用分为两种：</p>
+
+<ol>
+<li>remote call/external function call: <code>m:f(e1, ..., eN)</code></li>
+<li>local call: <code>f(e1, ..., eN)</code></li>
+</ol>
+
+<p>remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护
+两个版本的代码:<code>current</code>和 <code>old</code>。老版本和新版本可以同时运行：remote call总是使用
+<code>current</code>版本，local call可能运行<code>old</code>版本。当有更新的版本代码加载时，运行<code>old</code>
+代码的进程会终止。可以通过调用remote call，使进程切换到 <code>current</code> 版本。</p>
+
+<pre><code>-module(m).
+-export([loop/0]).
+
+loop() -&gt;
+    receive
+        code_switch -&gt;
+            m:loop();
+        Msg -&gt;
+            do_something,
+            loop()
+    end.
+</code></pre>
+
+<p>这种差别也体现在spawn函数调用时，<code>spawn(M, F, A)</code> 使用<code>current</code>代码，而 <code>spawn(Fun)</code> 中 <code>Fun</code> 是local call，不能进行热更新。</p>
+
+<p>但是存在这样一个问题：当进行热更新时，怎么保证运行老版本代码的进程不死掉呢？</p>
+
+<h2 id="ref:da1ddf33640aa161cade4fb67a90cc90">&mdash; Ref &mdash;</h2>
+
+<p>[1] <a href="http://erlang.org/doc/reference_manual/expressions.html#id78068">Function Calls</a></p>
+
+<p>[2] <a href="http://erlang.org/doc/reference_manual/code_loading.html#id86334">Code Loading</a></p>
+
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                
+                        <img class="avatar" src="http://adelzhang.github.ioimages/avatar.png">
+                        <div>
+                            <span class="dark">adelzhang</span>
+                            <span></span>
+                        </div>
+                    
+                <section id="sharing">
+                    
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://adelzhang.github.io/2014/support-multiple-icons-in-android/">动态修改Android应用图标<aside class="dates">Dec 28</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://adelzhang.github.io/2014/0x7c00/">0x7c00<aside class="dates">Oct 18</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://adelzhang.github.io/2014/may-be-a-escript-bug/">escript之诡秘<aside class="dates">Oct 2</aside></a>
+        </li>
+        
+   
+</ul>
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+        © Copyright 2016 adelzhang
+    
+    </p>
+</footer>
+
+        </section>
+
+        <script src="http://libs.baidu.com/jquery/2.1.1/jquery.js"></script>
+<script src="http://adelzhang.github.iojs/main.js"></script>
+<script src="http://adelzhang.github.iojs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+    </body>
+</html>

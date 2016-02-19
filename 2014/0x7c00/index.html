@@ -1,0 +1,164 @@
+    <!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="adelzhang">
+		<meta name="description" content="adelzhang&#39;s blog">
+		<meta name="generator" content="Hugo 0.15" />
+		<title>0x7c00 &middot; /home/adelzhang</title>
+		<link rel="shortcut icon" href="http://adelzhang.github.ioimages/favicon.ico">
+		<link rel="stylesheet" href="http://adelzhang.github.iocss/style.css">
+		<link rel="stylesheet" href="http://adelzhang.github.iocss/highlight.css">
+		<link rel="stylesheet" href="http://adelzhang.github.iocss/monosocialiconsfont.css">
+		
+		<link href="http://adelzhang.github.io/index.xml" rel="alternate" type="application/rss+xml" title="/home/adelzhang" />
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='http://adelzhang.github.io'> <span class="arrow">←</span>Home</a>
+	
+
+	
+	<a class="cta" href="http://adelzhang.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>0x7c00</h1>
+                    <h2 class="headline">October 18, 2014</h2>
+                </header>
+                <section id="post-body">
+                    
+
+<p><code>BIOS</code>完成自检(<code>POST</code>,Power-on self-test)后，将MBR(Master Boot Record)加载到
+Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，MBR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
+否是合法的MBR。</p>
+
+<p>那么现在问题来了：</p>
+
+<ul>
+<li>为什么<code>BIOS</code>会将MBR加载到0x7c00，而不是其他位置，比如说0x0？</li>
+<li>为什么选择<code>0xAA55</code>作为MBR标志？</li>
+</ul>
+
+<p>注意到</p>
+
+<pre><code>0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B
+</code></pre>
+
+<p>可见0x7c00并不是随意选择的地址。</p>
+
+<p>其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：</p>
+
+<ul>
+<li>预留最多的地址空间给DOS</li>
+<li>DOS操作系统最小内存要求是32KB</li>
+<li>8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区</li>
+<li>启动扇区总共为512字节，还需要额外空间作为栈或数据区</li>
+</ul>
+
+<p>参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
+节加载MBR是一个合理的决定。</p>
+
+<pre><code>+--------------------- 0x0
+| Interrupts vectors
++--------------------- 0x400
+| BIOS data area
++--------------------- 0x5??
+| OS load area
++--------------------- 0x7C00
+| Boot sector
++--------------------- 0x7E00
+| Boot data/stack
++--------------------- 0x7FFF
+| (not used)
++--------------------- (...)
+</code></pre>
+
+<p>至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+成</p>
+
+<pre><code>01010101 10101010
+</code></pre>
+
+<p>看着这么整齐可爱的模样，只能说是出于偏爱的原因。</p>
+
+<h1 id="ref:be5dce5714f6eaf8290a184233aa5c91">Ref</h1>
+
+<p>[1] <a href="http://www.glamenv-septzen.net/en/view/6">why bios loads MBR into 0x7c00 in x86?</a></p>
+
+<p>-EOF-</p>
+
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                
+                        <img class="avatar" src="http://adelzhang.github.ioimages/avatar.png">
+                        <div>
+                            <span class="dark">adelzhang</span>
+                            <span></span>
+                        </div>
+                    
+                <section id="sharing">
+                    
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://adelzhang.github.io/2014/support-multiple-icons-in-android/">动态修改Android应用图标<aside class="dates">Dec 28</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://adelzhang.github.io/2014/0x7c00/">0x7c00<aside class="dates">Oct 18</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://adelzhang.github.io/2014/may-be-a-escript-bug/">escript之诡秘<aside class="dates">Oct 2</aside></a>
+        </li>
+        
+   
+</ul>
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+        © Copyright 2016 adelzhang
+    
+    </p>
+</footer>
+
+        </section>
+
+        <script src="http://libs.baidu.com/jquery/2.1.1/jquery.js"></script>
+<script src="http://adelzhang.github.iojs/main.js"></script>
+<script src="http://adelzhang.github.iojs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+    </body>
+</html>
