@@ -1,7 +1,7 @@
 ---
-title: 工具与生产力
-date: 2014-09-14 23:09
-permalink: /2014/the-myths-of-tools/
+title: "工具与生产力"
+slug: "the-myths-of-tools"
+date: 2014-09-14
 ---
 
 最近周围好多人都换成机械键盘，甚至也有HHKB。我试着把玩了几下，手感较薄膜键盘还是

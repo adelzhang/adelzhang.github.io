@@ -1,0 +1,21 @@
+baseurl = "http://adelzhang.github.io/"
+title = "/home/adelzhang"
+languageCode = "zh-cn"
+hasCJKLanguage = true
+paginate = 8
+
+theme = "hugo-cactus-theme"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[permalinks]
+    post = "/:year/:slug/"
+
+[params]
+    name = "adelzhang"
+    bio = "不学无术 &middot; 暗于大理"
+    aboutAuthor = ""
+    description = "adelzhang's blog"
+    enableRSS = true

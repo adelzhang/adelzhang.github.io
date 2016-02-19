@@ -1,8 +1,8 @@
 ---
 title: 动态修改Android应用图标
-date: 2014-12-28 13:17
+slug: "support-multiple-icons-in-android"
+date: 2014-12-28
 tags: [android]
-permalink: /2014/support-multiple-icons-in-android/
 ---
 [Chainfire](www.chainfire.eu)(SuperSU作者)发现了一种可以[动态修改图标](www.chainfire.eu/articles/133/_TUT_Supporting_multiple_icons_in_your_app)的方法，挺有意思的，记录一下。
 

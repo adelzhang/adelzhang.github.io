@@ -1,8 +1,8 @@
 ---
-title: group leader二三事 
-date: 2014-09-20 20:31
+title: "group leader二三事" 
+slug: "what-is-group-leader"
+date: 2014-09-20
 tags: [erlang]
-permalink: /2014/what-is-group-leader/
 ---
 
 ## I. group leader在哪

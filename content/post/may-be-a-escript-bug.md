@@ -1,8 +1,8 @@
 ---
-title: escript之诡秘 
-date: 2014-10-02 23:21
+title: "escript之诡秘"
+slug: "may-be-a-escript-bug"
+date: 2014-10-02
 tags: [erlang]
-permalink: /2014/may-be-a-escript-bug/
 ---
 
 escript方便用户将erlang当作script来用([[1]](#[1]), [[2]](#[2]))。一个最简单的

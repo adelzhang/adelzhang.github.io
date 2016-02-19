@@ -1,7 +1,7 @@
 ---
-title: brian acton and erlang
-date: 2014-05-18 14:16
-permalink: /2014/brian-acton-and-erlang/
+title: "Brian Acton and Erlang"
+slug: "brian-acton-and-erlang"
+date: 2014-05-18
 ---
 
 [Brian Acton](http://en.wikipedia.org/wiki/Brian_Acton)在whatsapp被facebook收购后，除了瞬间变成一个亿万富翁外，也因其[特殊的工作经历](www.solidot.org/story?sid=38414)，被大众追捧为励志对象。这其实有点滑稽，大家只看到他被twitter，facebook拒绝，而选择性忽略他斯坦福大学毕业，曾在apple，adobe，yahoo工作过，特别是yahoo离职后跟[Jan Koum](http://en.wikipedia.org/wiki/Jan_Koum)跑南美去耍了一年，这完全是人生赢家呀。所以这事和“励志”没有半毛关系，顶多算从“小成功”走向“大成功”。
