@@ -455,7 +455,7 @@ Post List
 	padding-bottom: 40px;
 	margin-top: 40px;
 	color:#444;
-	border-bottom: 1px solid #eee;
+	/*border-bottom: 1px solid #eee;*/
 }
 
 #post-meta div span {
