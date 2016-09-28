@@ -1,6 +1,7 @@
 ---
 title: "Brian Acton and Erlang"
 slug: "brian-acton-and-erlang"
+draft: true
 date: 2014-05-18
 ---
 
