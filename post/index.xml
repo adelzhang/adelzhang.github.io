@@ -555,48 +555,6 @@ The code in user.erl can be used as a model for building alternative I/O servers
     </item>
     
     <item>
-      <title>工具与生产力</title>
-      <link>http://adelzhang.github.io/2014/the-myths-of-tools/</link>
-      <pubDate>Sun, 14 Sep 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://adelzhang.github.io/2014/the-myths-of-tools/</guid>
-      <description>&lt;p&gt;最近周围好多人都换成机械键盘，甚至也有HHKB。我试着把玩了几下，手感较薄膜键盘还是
-有些提升的，加上更适合码农的键位，看着是挺诱人的。要是以前的我，心中必定一地鸡
-毛，然后一通调研比较各种牌子价位，最后因为囊中羞涩而作罢，时间也浪费掉了。而现在
-我学的淡定了许多。从我个人分析，键盘作为码农的生产工具，换机械键盘的原动力主要有
-两个：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;键盘好看。87键位小巧可爱，与众不同。&lt;/li&gt;
-&lt;li&gt;号称适合码农。良好的手感，&lt;code&gt;Caps&lt;/code&gt; 和 &lt;code&gt;Ctrl&lt;/code&gt; 可以互换。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;原因1无可厚非，等同于看到美女时的视觉享受，无法抗拒呀，:)。原因2有个深层的假设，
-高手们都在用机械键盘，或许当我也换成使用这种键盘时，我的效率就会自然而然得到提高，
-不假时日也能进入高手的行列。很显然，想通过换键盘来提高rank的行为相当自欺欺人，而
-这恰恰是换机械键盘时的最大幻想。在试玩的过程中由于键位的不适应，刚开始使用时效率
-反而会比我以前惯用的键盘低很多。可见，键盘无所谓贵贱，“唯手熟耳”。至于美感的问题，
-这主要还是取决于你的钱包厚度。&lt;/p&gt;
-
-&lt;p&gt;其实困扰低级码农的工具问题不止键盘，各种工具的选择都会对低级码农造成不小的麻烦：
-哪种语言更高级？编辑器和&lt;code&gt;IDE&lt;/code&gt;的哪个好？&lt;code&gt;vim&lt;/code&gt;和&lt;code&gt;emacs&lt;/code&gt;哪个更好？&lt;code&gt;IDE&lt;/code&gt;哪个更好用？
-对于处于并将很长期处于低级码农的我来说，这些问题浪费了我很多时间和精力，更可怕的
-是因为纠结于这些问题，忽略了你真正要完成的目的。而且这些问题本来就是没有答案的，
-今天看到那个说A好就玩玩A，明天看到哪个说B好就转向B，到头来都是一场空。所以不要纠
-结在这些形而上的东西，能候选的肯定都不会差，选中一个就可以开始你的精彩之旅。&lt;/p&gt;
-
-&lt;p&gt;现实是人类总是很愚蠢的，我又开始“关心”哪种方式写erlang最方便。在浪费了一个礼拜的
-“选择”后，我最终觉得&lt;code&gt;erlang&lt;/code&gt;还是用已经成为&lt;code&gt;erlang&lt;/code&gt;届既定标准的&lt;code&gt;emacs&lt;/code&gt;来写比较好，
-毕竟排版最好看，再配合&lt;code&gt;evil&lt;/code&gt;就更好了。至于erlIDE或者IDEA的erlang插件，想要花时间
-再去学，还是把这个时间写更多的代码呢？:)&lt;/p&gt;
-
-&lt;p&gt;但愿以后多点智慧。&lt;/p&gt;
-
-&lt;p&gt;-EOF-&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>函数调用和热更新</title>
       <link>http://adelzhang.github.io/2014/remote-and-local-call-in-erlang/</link>
       <pubDate>Sat, 06 Sep 2014 00:00:00 +0000</pubDate>
@@ -638,70 +596,6 @@ loop() -&amp;gt;
 &lt;p&gt;[1] &lt;a href=&#34;http://erlang.org/doc/reference_manual/expressions.html#id78068&#34;&gt;Function Calls&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;[2] &lt;a href=&#34;http://erlang.org/doc/reference_manual/code_loading.html#id86334&#34;&gt;Code Loading&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Brian Acton and Erlang</title>
-      <link>http://adelzhang.github.io/2014/brian-acton-and-erlang/</link>
-      <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://adelzhang.github.io/2014/brian-acton-and-erlang/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Brian_Acton&#34;&gt;Brian Acton&lt;/a&gt;在whatsapp被facebook收购后，除了瞬间变成一个亿万富翁外，也因其&lt;a href=&#34;www.solidot.org/story?sid=38414&#34;&gt;特殊的工作经历&lt;/a&gt;，被大众追捧为励志对象。这其实有点滑稽，大家只看到他被twitter，facebook拒绝，而选择性忽略他斯坦福大学毕业，曾在apple，adobe，yahoo工作过，特别是yahoo离职后跟&lt;a href=&#34;http://en.wikipedia.org/wiki/Jan_Koum&#34;&gt;Jan Koum&lt;/a&gt;跑南美去耍了一年，这完全是人生赢家呀。所以这事和“励志”没有半毛关系，顶多算从“小成功”走向“大成功”。&lt;/p&gt;
-
-&lt;p&gt;但Brian Acton人生能有如此小高潮，与erlang还是有点关系的。Brian Acton 2009年才学erlang，到如今用erlang支持着whatsapp亿级用户量，erlang和Brian Action都让人惊叹。从erlang-question list上可以找到Brian Acton刚开始使用erlang时的踪迹，或许能有所启发。&lt;/p&gt;
-
-&lt;h2 id=&#34;2010-jan:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Jan&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-January/049111.html&#34;&gt;understanding the scaleability limits of erlang and mnesia&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;2010-feb:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Feb&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-February/049468.html&#34;&gt;upgrading from R12 to R13 in a heterogeneous fashion&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-February/049824.html&#34;&gt;Mnesia - 2Gb or 4Gb - which is it?&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;呵呵，&lt;strong&gt;没人回答&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;2010-mar:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Mar&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-March/049883.html&#34;&gt;How to deal with Mnesia core files&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-March/050040.html&#34;&gt;Unicode question&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;基本unicode库问题&lt;/p&gt;
-
-&lt;h2 id=&#34;2010-apr:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Apr&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-April/050475.html&#34;&gt;Mnesia deadlock with large volume of dirty operations?&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-April/050476.html&#34;&gt;how to clear a hot mnesia table&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;呵呵，&lt;strong&gt;没人回答&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-April/050554.html&#34;&gt;more try/catch confusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;基本语法问题&lt;/p&gt;
-
-&lt;h2 id=&#34;2010-sep:0af509e3334b67aeaf4bc6e4730004ba&#34;&gt;2010-Sep&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://erlang.org/pipermail/erlang-questions/2010-September/053468.html&#34;&gt;corrupt external term&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;没人回答&lt;/strong&gt;，呵呵。&lt;/p&gt;
 </description>
     </item>
     
