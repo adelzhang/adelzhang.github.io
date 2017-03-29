@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="author" content="adelzhang">
 		<meta name="description" content="adelzhang&#39;s blog">
-		<meta name="generator" content="Hugo 0.15" />
+		<meta name="generator" content="Hugo 0.17" />
         
 		<title>动态修改Android应用图标 &middot; /home/adelzhang</title>
         
@@ -45,7 +45,7 @@
 
 <p>简单地说，该方法是使用 <code>&lt;activity-alias&gt;</code> 和 <code>PackageManager.setComponentEnabledSetting()</code> 来做到的。</p>
 
-<h2 id="android-manifest:d7093ae11ccf6d8429caf7fe714c5bb4">Android Manifest</h2>
+<h2 id="android-manifest">Android Manifest</h2>
 
 <p>注意<code>&lt;activity&gt;</code>标签中没有设置<code>launcher category</code>，另外，<code>&lt;activity-alias&gt;</code>中只有一个设置为<code>android:enabled=true</code>。</p>
 
@@ -84,7 +84,7 @@
 &lt;/activity-alias&gt;
 </code></pre>
 
-<h2 id="java-code:d7093ae11ccf6d8429caf7fe714c5bb4">Java Code</h2>
+<h2 id="java-code">Java Code</h2>
 
 <pre><code>:::java
 private void setIcon(int iconId){
@@ -161,7 +161,7 @@ private void setIcon(int iconId){
     
     <p class="small">
     
-        © Copyright 2014-2016 adelzhang
+        © Copyright 2014-2017 adelzhang
     
     </p>
 </footer>

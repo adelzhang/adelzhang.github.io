@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="author" content="adelzhang">
 		<meta name="description" content="adelzhang&#39;s blog">
-		<meta name="generator" content="Hugo 0.15" />
+		<meta name="generator" content="Hugo 0.17" />
         
 		<title>group leader二三事 &middot; /home/adelzhang</title>
         
@@ -41,7 +41,7 @@
                 <section id="post-body">
                     
 
-<h2 id="i-group-leader在哪:d311c28748ddfd3d0c775365a93eced2">I. group leader在哪</h2>
+<h2 id="i-group-leader在哪">I. group leader在哪</h2>
 
 <p>有很多地方可以发现group leader的踪迹，比如在<code>application</code>模块中。通常我们调用<code>application:start(Application)</code>来启动应用，<code>application</code>
 是对<code>application_controller</code>的封装：</p>
@@ -155,7 +155,7 @@ init(Parent, Starter, ApplData, Type) -&gt;
 
 <p>group leader终于出现了，那么疑问就变成：什么是group leader？为什么AM不采用辅助进程的话会造成deadlock？</p>
 
-<h2 id="ii-什么是group-leader:d311c28748ddfd3d0c775365a93eced2">II. 什么是group leader</h2>
+<h2 id="ii-什么是group-leader">II. 什么是group leader</h2>
 
 <p>在erlang doc中，有关group leader是这样描述的：</p>
 
@@ -214,7 +214,7 @@ wait_io_mon_reply(From, Mref) -&gt;
     end.
 </code></pre>
 
-<h2 id="iii-何时需要group-leader:d311c28748ddfd3d0c775365a93eced2">III. 何时需要group leader</h2>
+<h2 id="iii-何时需要group-leader">III. 何时需要group leader</h2>
 
 <p>一般情况下，我们并不用关心group leader。但在某些场景下，可能需要对io进行拦截，这时候就
 需要修改进程的group leader。rpc模块就利用了这种技术，使得在远程节点运行的代码，结果输出
@@ -316,7 +316,7 @@ The code in user.erl can be used as a model for building alternative I/O servers
     
     <p class="small">
     
-        © Copyright 2014-2016 adelzhang
+        © Copyright 2014-2017 adelzhang
     
     </p>
 </footer>
