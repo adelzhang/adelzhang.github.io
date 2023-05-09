@@ -1,0 +1,49 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>/home/adelzhang</title>
+        <link>https://adelzhang.github.io/</link>
+        <description>This is my cool site</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 28 Dec 2014 00:00:00 &#43;0000</lastBuildDate>
+            <atom:link href="https://adelzhang.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>动态修改Android应用图标</title>
+    <link>https://adelzhang.github.io/posts/support-multiple-icons-in-android/</link>
+    <pubDate>Sun, 28 Dec 2014 00:00:00 &#43;0000</pubDate>
+    <author>adelzhang</author>
+    <guid>https://adelzhang.github.io/posts/support-multiple-icons-in-android/</guid>
+    <description><![CDATA[Chainfire(SuperSU作者)发现了一种可以动态修改图标的方法，挺有意思的，记录一下。 简单地说，该方法是使用 &lt;activity-alias&gt; 和 PackageManager.setComponentEnabledSetting() 来做到的。 Android Manifest 注]]></description>
+</item>
+<item>
+    <title>0x7c00</title>
+    <link>https://adelzhang.github.io/posts/0x7c00/</link>
+    <pubDate>Sat, 18 Oct 2014 00:00:00 &#43;0000</pubDate>
+    <author>adelzhang</author>
+    <guid>https://adelzhang.github.io/posts/0x7c00/</guid>
+    <description><![CDATA[BIOS完成自检(POST,Power-on self-test)后，将MBR(Master Boot Record)加载到 Ox7c00位置，然后跳转到]]></description>
+</item>
+<item>
+    <title>escript之诡秘</title>
+    <link>https://adelzhang.github.io/posts/may-be-a-escript-bug/</link>
+    <pubDate>Thu, 02 Oct 2014 00:00:00 &#43;0000</pubDate>
+    <author>adelzhang</author>
+    <guid>https://adelzhang.github.io/posts/may-be-a-escript-bug/</guid>
+    <description><![CDATA[escript方便用户将erlang当作script来用([1], [2])。一个最简单的 escript可以是这样的： #! /usr/bin/env escript main(_Args) -&gt; io:format(&#34;hello world~n&#34;). 但是如果你]]></description>
+</item>
+<item>
+    <title>group leader二三事</title>
+    <link>https://adelzhang.github.io/posts/what-is-group-leader/</link>
+    <pubDate>Sat, 20 Sep 2014 00:00:00 &#43;0000</pubDate>
+    <author>adelzhang</author>
+    <guid>https://adelzhang.github.io/posts/what-is-group-leader/</guid>
+    <description><![CDATA[I. group leader在哪 有很多地方可以发现group leader的踪迹，比如在application模块中。通常我们调用application:]]></description>
+</item>
+<item>
+    <title>函数调用和热更新</title>
+    <link>https://adelzhang.github.io/posts/remote-and-local-call-in-erlang/</link>
+    <pubDate>Sat, 06 Sep 2014 00:00:00 &#43;0000</pubDate>
+    <author>adelzhang</author>
+    <guid>https://adelzhang.github.io/posts/remote-and-local-call-in-erlang/</guid>
+    <description><![CDATA[erlang中函数调用分为两种： remote call/external function call: m:f(e1, ..., eN) local call: f(e1, ..., eN) remote call 和 local call的主要差别在热更新时。erlang运行时对module可以维护 两个版]]></description>
+</item>
+</channel>
+</rss>

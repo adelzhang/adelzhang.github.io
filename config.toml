@@ -6,6 +6,8 @@ defaultContentLanguage = "zh-cn"
 hasCJKLanguage = true
 paginate = 8
 
+publishDir = "docs"
+
 theme = "LoveIt"
 
 [taxonomies]

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>0x7c00 - /home/adelzhang</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="0x7c00" />
+<meta property="og:description" content="BIOS完成自检(POST,Power-on self-test)后，将MBR(Master Boot Record)加载到 Ox7c00位置，然后跳转到" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://adelzhang.github.io/posts/0x7c00/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2014-10-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-10-18T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="0x7c00"/>
+<meta name="twitter:description" content="BIOS完成自检(POST,Power-on self-test)后，将MBR(Master Boot Record)加载到 Ox7c00位置，然后跳转到"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://adelzhang.github.io/posts/0x7c00/" /><link rel="prev" href="https://adelzhang.github.io/posts/may-be-a-escript-bug/" /><link rel="next" href="https://adelzhang.github.io/posts/support-multiple-icons-in-android/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "0x7c00",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/adelzhang.github.io\/posts\/0x7c00\/"
+        },"genre": "posts","wordcount":  565 ,
+        "url": "https:\/\/adelzhang.github.io\/posts\/0x7c00\/","datePublished": "2014-10-18T00:00:00+00:00","dateModified": "2014-10-18T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "adelzhang"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="/home/adelzhang"><span class="header-title-pre">😘</span>/home/adelzhang</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="/home/adelzhang"><span class="header-title-pre">😘</span>/home/adelzhang</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">0x7c00</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://adelzhang.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>adelzhang</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2014-10-18">2014-10-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 565 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p><code>BIOS</code>完成自检(<code>POST</code>,Power-on self-test)后，将MBR(Master Boot Record)加载到
+Ox7c00位置，然后跳转到该地址执行。MBR即硬盘的第一个扇区(0柱面，0磁头，1扇区），
+硬盘每个扇区有512字节，MBR必须以<code>0xAA55</code>为结尾，<code>BIOS</code>检测最后两个字节来判断是
+否是合法的MBR。</p>
+<p>那么现在问题来了：</p>
+<ul>
+<li>为什么<code>BIOS</code>会将MBR加载到0x7c00，而不是其他位置，比如说0x0？</li>
+<li>为什么选择<code>0xAA55</code>作为MBR标志？</li>
+</ul>
+<p>注意到</p>
+<pre><code>0x7c00 = 0x8000 - 0x400 
+       = 32KB - 1024B
+</code></pre>
+<p>可见0x7c00并不是随意选择的地址。</p>
+<p>其实这跟第一台IBM PC和DOS有关。BIOS选择0x7c00主要有以下原因：</p>
+<ul>
+<li>预留最多的地址空间给DOS</li>
+<li>DOS操作系统最小内存要求是32KB</li>
+<li>8086/8088使用0x0 - 0x3FF作为中断向量表，紧接着BIOS数据区</li>
+<li>启动扇区总共为512字节，还需要额外空间作为栈或数据区</li>
+</ul>
+<p>参考内存分布图，在低地址空间已被占用，内存至少32KB的情况下，在高地址腾出1024字
+节加载MBR是一个合理的决定。</p>
+<pre><code>+--------------------- 0x0
+| Interrupts vectors
++--------------------- 0x400
+| BIOS data area
++--------------------- 0x5??
+| OS load area
++--------------------- 0x7C00
+| Boot sector
++--------------------- 0x7E00
+| Boot data/stack
++--------------------- 0x7FFF
+| (not used)
++--------------------- (...)
+</code></pre>
+<p>至于为什么使用0xAA55作为MBR标志，考虑到x86使用的是小尾序，0xAA55在内存中会记录
+成</p>
+<pre><code>01010101 10101010
+</code></pre>
+<p>看着这么整齐可爱的模样，只能说是出于偏爱的原因。</p>
+<h1 id="ref">Ref</h1>
+<p>[1] <a href="http://www.glamenv-septzen.net/en/view/6" target="_blank" rel="noopener noreffer ">why bios loads MBR into 0x7c00 in x86?</a></p>
+<p>-EOF-</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2014-10-18</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/may-be-a-escript-bug/" class="prev" rel="prev" title="escript之诡秘"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>escript之诡秘</a>
+            <a href="/posts/support-multiple-icons-in-android/" class="next" rel="next" title="动态修改Android应用图标">动态修改Android应用图标<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.111.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://adelzhang.github.io" target="_blank">adelzhang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
