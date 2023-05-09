@@ -11,7 +11,7 @@ tags: [android]
 ## Android Manifest
 注意`<activity>`标签中没有设置`launcher category`，另外，`<activity-alias>`中只有一个设置为`android:enabled=true`。
 
-    :::xml linenums="True"
+```xml linenums="True"
     <activity
         android:name=".MainActivity"
         android:label="@string/app_name">
@@ -44,10 +44,11 @@ tags: [android]
         <category android:name="android.intent.category.LAUNCHER" />
     </intent-filter>
     </activity-alias>
+```
 
 ## Java Code
 
-    :::java
+```java
     private void setIcon(int iconId){
         Context ctx = getActivity();
         PackageManager pm = ctx.getPackageManager();
@@ -83,5 +84,5 @@ tags: [android]
         // Change ActionBar icon
         getActivity().getActionBar().setIcon(iconId);
     }
-
+```
 

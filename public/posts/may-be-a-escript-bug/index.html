@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>escript之诡秘 - /home/adelzhang</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="escript之诡秘" />
+<meta property="og:description" content="escript方便用户将erlang当作script来用([1], [2])。一个最简单的 escript可以是这样的： #! /usr/bin/env escript main(_Args) -&gt; io:format(&#34;hello world~n&#34;). 但是如果你" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://adelzhang.github.io/posts/may-be-a-escript-bug/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2014-10-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-10-02T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="escript之诡秘"/>
+<meta name="twitter:description" content="escript方便用户将erlang当作script来用([1], [2])。一个最简单的 escript可以是这样的： #! /usr/bin/env escript main(_Args) -&gt; io:format(&#34;hello world~n&#34;). 但是如果你"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://adelzhang.github.io/posts/may-be-a-escript-bug/" /><link rel="prev" href="https://adelzhang.github.io/posts/what-is-group-leader/" /><link rel="next" href="https://adelzhang.github.io/posts/0x7c00/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "escript之诡秘",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/adelzhang.github.io\/posts\/may-be-a-escript-bug\/"
+        },"genre": "posts","keywords": "erlang","wordcount":  670 ,
+        "url": "https:\/\/adelzhang.github.io\/posts\/may-be-a-escript-bug\/","datePublished": "2014-10-02T00:00:00+00:00","dateModified": "2014-10-02T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "adelzhang"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="/home/adelzhang"><span class="header-title-pre">😘</span>/home/adelzhang</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="/home/adelzhang"><span class="header-title-pre">😘</span>/home/adelzhang</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">escript之诡秘</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://adelzhang.github.io" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>adelzhang</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2014-10-02">2014-10-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 670 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>escript方便用户将erlang当作script来用(<a href="#[1]" rel="">[1]</a>, <a href="#[2]" rel="">[2]</a>)。一个最简单的
+escript可以是这样的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="ch">#! /usr/bin/env escript
+</span></span></span><span class="line"><span class="cl"><span class="ch"></span><span class="nf">main</span><span class="p">(_</span><span class="nv">Args</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">&#34;hello world</span><span class="si">~n</span><span class="s">&#34;</span><span class="p">).</span>
+</span></span></code></pre></div><p>但是如果你是像下面这样写的话，事情就没有那么顺利了:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="ch">#! /usr/bin/env escript
+</span></span></span><span class="line"><span class="cl"><span class="ch"></span><span class="nf">main</span><span class="p">(_</span><span class="nv">Args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">&#34;hello world</span><span class="si">~n</span><span class="s">&#34;</span><span class="p">).</span>
+</span></span></code></pre></div><p>会得到 <code>Premature end of file reached</code> 的错误。</p>
+<p>这与escript对文件前三行有特别的处理有关:</p>
+<ul>
+<li>第一行通常是shebang，以<code>%!</code>开头</li>
+<li>第二行可以是emacs的一些设置，以<code>%%</code>开头</li>
+<li>第三行可以是传递给emulator的选项，以<code>%%!</code>开头</li>
+</ul>
+<p>下面通过escript源代码，看看具体是怎么处理的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="c">%% Skip header and make a heuristic guess about the script type
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="nf">parse_header</span><span class="p">(</span><span class="nv">File</span><span class="p">,</span> <span class="nv">KeepFirst</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">LineNo</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">Line1</span> <span class="o">=</span> <span class="n">get_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">classify_line</span><span class="p">(</span><span class="nv">Line1</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">        <span class="n">shebang</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">find_first_body_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">,</span> <span class="nv">HeaderSz0</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">KeepFirst</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nl">#sections</span><span class="p">{</span><span class="n">shebang</span> <span class="o">=</span> <span class="nv">Line1</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="n">archive</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span><span class="nv">HeaderSz0</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">archive</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">beam</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span><span class="nv">HeaderSz0</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">beam</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">find_first_body_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">,</span> <span class="nv">HeaderSz0</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">KeepFirst</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nl">#sections</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">classify_line</span><span class="p">(</span><span class="nv">Line</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nv">Line</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;#!&#34;</span> <span class="o">++</span> <span class="p">_</span> <span class="o">-&gt;</span> <span class="n">shebang</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;PK&#34;</span> <span class="o">++</span> <span class="p">_</span> <span class="o">-&gt;</span> <span class="n">archive</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;FOR1&#34;</span> <span class="o">++</span> <span class="p">_</span> <span class="o">-&gt;</span> <span class="n">beam</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;%%!&#34;</span> <span class="o">++</span> <span class="p">_</span> <span class="o">-&gt;</span> <span class="n">emu_args</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;%&#34;</span> <span class="o">++</span> <span class="p">_</span> <span class="o">-&gt;</span> <span class="n">comment</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">_</span> <span class="o">-&gt;</span> <span class="n">undefined</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></div><p><code>parse_header/2</code>对<code>Line1</code>进行分析，当识别出是archive或者是beam时，可进行下一步处理；否则需要继续寻找头部结束的位置。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">find_first_body_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">,</span> <span class="nv">HeaderSz0</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">KeepFirst</span><span class="p">,</span> <span class="nv">Sections</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">HeaderSz1</span><span class="p">}</span> <span class="o">=</span> <span class="nn">file</span><span class="p">:</span><span class="nf">position</span><span class="p">(</span><span class="nv">Fd</span><span class="p">,</span> <span class="n">cur</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="c">%% Look for special comment on second line
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">    <span class="nv">Line2</span> <span class="o">=</span> <span class="n">get_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">HeaderSz2</span><span class="p">}</span> <span class="o">=</span> <span class="nn">file</span><span class="p">:</span><span class="nf">position</span><span class="p">(</span><span class="nv">Fd</span><span class="p">,</span> <span class="n">cur</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">classify_line</span><span class="p">(</span><span class="nv">Line2</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">        <span class="n">emu_args</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="c">%% Skip special comment on second line
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>            
+</span></span><span class="line"><span class="cl">            <span class="nv">Line3</span> <span class="o">=</span> <span class="n">get_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span><span class="nv">HeaderSz2</span><span class="p">,</span> <span class="nv">LineNo</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">Sections</span><span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="nv">Line3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">comment</span> <span class="o">=</span> <span class="n">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">emu_args</span> <span class="o">=</span> <span class="nv">Line2</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">Line2Type</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="c">%% Look for special comment on third line
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">            <span class="nv">Line3</span> <span class="o">=</span> <span class="n">get_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">HeaderSz3</span><span class="p">}</span> <span class="o">=</span> <span class="nn">file</span><span class="p">:</span><span class="nf">position</span><span class="p">(</span><span class="nv">Fd</span><span class="p">,</span> <span class="n">cur</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">Line3Type</span> <span class="o">=</span> <span class="n">classify_line</span><span class="p">(</span><span class="nv">Line3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">Line3Type</span> <span class="o">=:=</span> <span class="n">emu_args</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="c">%% Skip special comment on third line
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">                <span class="nv">Line4</span> <span class="o">=</span> <span class="n">get_line</span><span class="p">(</span><span class="nv">Fd</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span><span class="nv">HeaderSz3</span><span class="p">,</span> <span class="nv">LineNo</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">Sections</span><span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="nv">Line4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">comment</span> <span class="o">=</span> <span class="nv">Line2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">emu_args</span> <span class="o">=</span> <span class="nv">Line3</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">Sections</span><span class="nl">#sections.shebang</span> <span class="o">=:=</span> <span class="n">undefined</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">KeepFirst</span> <span class="o">=:=</span> <span class="n">true</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="c">%% No shebang. Use the entire file
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span><span class="nv">HeaderSz0</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">Sections</span><span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="nv">Line2</span><span class="p">)}};</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">Sections</span><span class="nl">#sections.shebang</span> <span class="o">=:=</span> <span class="n">undefined</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="c">%% No shebang. Skip the first line
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span><span class="nv">HeaderSz1</span><span class="p">,</span> <span class="nv">LineNo</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">Sections</span><span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="nv">Line2</span><span class="p">)}};</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">Line2Type</span> <span class="o">=:=</span> <span class="n">comment</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="c">%% Skip shebang on first line and comment on second
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span><span class="nv">HeaderSz2</span><span class="p">,</span> <span class="nv">LineNo</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">Sections</span><span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="nv">Line3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">comment</span> <span class="o">=</span> <span class="nv">Line2</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl">            <span class="n">true</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="c">%% Just skip shebang on first line
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span><span class="nv">HeaderSz1</span><span class="p">,</span> <span class="nv">LineNo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">Fd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">Sections</span><span class="nl">#sections</span><span class="p">{</span><span class="n">type</span> <span class="o">=</span> <span class="n">guess_type</span><span class="p">(</span><span class="nv">Line2</span><span class="p">)}}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></div><p>问题就出在<code>find_first_body_line/5</code>直接读取Line3，当文件只有两行时会被当成文件
+异常结束。</p>
+<p>或许可以写个PullRequest？ :)</p>
+<h1 id="ref">Ref</h1>
+<p><!-- raw HTML omitted -->[1]<!-- raw HTML omitted --> <a href="http://www.erlang.org/doc/man/escript.html" target="_blank" rel="noopener noreffer ">escript</a></p>
+<p><!-- raw HTML omitted -->[2]<!-- raw HTML omitted --> <a href="http://blog.yufeng.info/archives/153" target="_blank" rel="noopener noreffer ">escript的高级特性</a></p>
+<p>-EOF-</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2014-10-02</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/erlang/">erlang</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/what-is-group-leader/" class="prev" rel="prev" title="group leader二三事"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>group leader二三事</a>
+            <a href="/posts/0x7c00/" class="next" rel="next" title="0x7c00">0x7c00<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.111.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://adelzhang.github.io" target="_blank">adelzhang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

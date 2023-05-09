@@ -1,10 +1,12 @@
-baseurl = "http://adelzhang.github.io/"
+baseURL = "https://adelzhang.github.io/"
 title = "/home/adelzhang"
 languageCode = "zh-cn"
+languageName = "简体中文"
+defaultContentLanguage = "zh-cn"
 hasCJKLanguage = true
 paginate = 8
 
-theme = "hugo-cactus-theme"
+theme = "LoveIt"
 
 [taxonomies]
   tag = "tags"
@@ -13,9 +15,101 @@ theme = "hugo-cactus-theme"
 [permalinks]
     post = "/:year/:slug/"
 
+# Author config
+[author]
+  name = "adelzhang"
+  email = ""
+  link = "http://adelzhang.github.io"
+
+[markup]
+  # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)
+  [markup.highlight]
+    # false 是必要的设置 (https://github.com/dillonzq/LoveIt/issues/158)
+    noClasses = false
+
+# 菜单配置
+[menu]
+  [[menu.main]]
+    weight = 1
+    identifier = "posts"
+    # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
+    pre = ""
+    # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
+    post = ""
+    name = "文章"
+    url = "/posts/"
+    # 当你将鼠标悬停在此菜单链接上时, 将显示的标题
+    title = ""
+  [[menu.main]]
+    weight = 2
+    identifier = "tags"
+    pre = ""
+    post = ""
+    name = "标签"
+    url = "/tags/"
+    title = ""
+
+
 [params]
-    name = "adelzhang"
-    bio = "不学无术 &middot; 暗于大理"
-    aboutAuthor = ""
-    description = "adelzhang's blog"
-    enableRSS = true
+  # Header config
+  [params.header]
+    # desktop header mode ["fixed", "normal", "auto"]
+    desktopMode = "fixed"
+    # mobile header mode ["fixed", "normal", "auto"]
+    mobileMode = "auto"
+    # LoveIt NEW | 0.2.0 Header title config
+    [params.header.title]
+      # URL of the LOGO
+      logo = ""
+      # title name
+      name = "/home/adelzhang"
+      # you can add extra information before the name (HTML format is supported), such as icons
+      pre = "😘"
+      # you can add extra information after the name (HTML format is supported), such as icons
+      post = ""
+      # LoveIt NEW | 0.2.5 whether to use typeit animation for title name
+      typeit = false
+
+  [params.home]
+    # LoveIt NEW | 0.2.0 amount of RSS pages
+    rss = 10
+    # Home page profile
+    [params.home.profile]
+      enable = true
+      # Gravatar Email for preferred avatar in home page
+      gravatarEmail = ""
+      # URL of avatar shown in home page
+      avatarURL = "/avatar.jpg"
+      # LoveIt CHANGED | 0.2.7 title shown in home page (HTML format is supported)
+      title = ""
+      # subtitle shown in home page (HTML format is supported)
+      subtitle = "不学无术 &middot; 暗于大理"
+      # whether to use typeit animation for subtitle
+      typeit = true
+      # whether to show social links
+      social = true
+      # LoveIt NEW | 0.2.0 disclaimer (HTML format is supported)
+      disclaimer = ""
+    # Home page posts
+    [params.home.posts]
+      enable = true
+      # special amount of posts in each home posts page
+      paginate = 6
+      # LoveIt DELETED | 0.2.0 replaced with hiddenFromHomePage in params.page
+      # default behavior when you don't set "hiddenFromHomePage" in front matter
+      defaultHiddenFromHomePage = false
+
+  [params.social]
+    GitHub = "adelzhang"
+    Weibo = ""
+    Bilibili = ""
+    Zhihu = ""
+    Douban = ""
+    Discord = ""
+    DiscordInvite = ""
+    Email = ""
+    RSS = true # LoveIt NEW | 0.2.0
+
+  [params.page]
+      [params.page.share]
+        enable = false
